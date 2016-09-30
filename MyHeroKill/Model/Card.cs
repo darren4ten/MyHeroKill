@@ -11,6 +11,9 @@ namespace MyHeroKill.Model
     /// </summary>
     public class Card
     {
+        /// <summary>
+        /// 卡牌名称
+        /// </summary>
         public string Name { get; set; }
         public string ImgUrl { get; set; }
 
@@ -37,7 +40,6 @@ namespace MyHeroKill.Model
         /// </summary>
         public bool IsSha { get; set; }
         public bool IsShan { get; set; }
-        public bool IsJuedou { get; set; }
         public bool IsYao { get; set; }
         #endregion
 
@@ -48,8 +50,6 @@ namespace MyHeroKill.Model
         public bool IsWuxiekeji { get; set; }
         public bool IsHuadiweilao { get; set; }
         public bool IsJiedaosharen { get; set; }
-        public bool IsWugufengdeng { get; set; }
-        public bool IsWuzhongshengyou { get; set; }
         public bool IsWugufengdeng { get; set; }
         public bool IsWuzhongshengyou { get; set; }
         /// <summary>
