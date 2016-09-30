@@ -1,0 +1,6 @@
+D:\MyProjects\Test\MyHeroKill\MyHeroKill\bin\Debug\MyHeroKill.exe.config
+D:\MyProjects\Test\MyHeroKill\MyHeroKill\bin\Debug\MyHeroKill.exe
+D:\MyProjects\Test\MyHeroKill\MyHeroKill\bin\Debug\MyHeroKill.pdb
+D:\MyProjects\Test\MyHeroKill\MyHeroKill\obj\Debug\MyHeroKill.csprojResolveAssemblyReference.cache
+D:\MyProjects\Test\MyHeroKill\MyHeroKill\obj\Debug\MyHeroKill.exe
+D:\MyProjects\Test\MyHeroKill\MyHeroKill\obj\Debug\MyHeroKill.pdb
