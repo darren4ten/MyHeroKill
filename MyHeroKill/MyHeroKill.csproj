@@ -41,7 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exstensions\CommonEqualityComparer.cs" />
+    <Compile Include="Exstensions\DistinctExstention.cs" />
+    <Compile Include="Managers\HandCardManager.cs" />
+    <Compile Include="Managers\HostManager.cs" />
     <Compile Include="Model\Card.cs" />
+    <Compile Include="Model\CardModel.cs" />
     <Compile Include="Model\Enums.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

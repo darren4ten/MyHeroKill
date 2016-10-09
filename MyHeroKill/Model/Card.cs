@@ -20,7 +20,7 @@ namespace MyHeroKill.Model
         /// <summary>
         /// 卡牌类型
         /// </summary>
-        public MyHeroKill.Model.Enums.CardType Type { get; set; }
+        public MyHeroKill.Model.Enums.ECardColorAndSignType Type { get; set; }
 
         /// <summary>
         /// 数值，比如A=1，2=2，J=11

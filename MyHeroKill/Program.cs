@@ -16,6 +16,13 @@ namespace MyHeroKill
             TestCard();
             Console.Read();
         }
+
+        static void GetAllCardType()
+        {
+            var cardService = new CardService();
+            var cards = cardService.GetAllCard();
+        }
+
         static void TestCard()
         {
             var cardService = new CardService();
