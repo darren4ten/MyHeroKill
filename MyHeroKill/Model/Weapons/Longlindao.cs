@@ -20,10 +20,12 @@ namespace MyHeroKill.Model.Weapons
             this.AddLife = 0;
         }
 
-        public void CanDoEvents()
+        public void AfterSha(bool isSuccess)
         {
-            //选择两张牌弃掉
+            if (isSuccess)
+            {
+                //选择是否弃掉两张牌
+            }
         }
-
     }
 }

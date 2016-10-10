@@ -77,15 +77,23 @@ namespace MyHeroKill.Model.Weapons
             this.AddLife = 0;
         }
 
-
-        public void CanDoEvents()
+        public void AfterSha(bool isSuccess)
         {
-            
         }
 
-        public void MustDoEvents()
+        public void AfterShan(bool isSuccess)
         {
-            
+        }
+
+
+        public void BeforeSha()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BeforeShan()
+        {
+            throw new NotImplementedException();
         }
     }
 }

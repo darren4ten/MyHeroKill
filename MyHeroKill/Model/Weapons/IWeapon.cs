@@ -23,14 +23,15 @@ namespace MyHeroKill.Model.Wepons
         int AddLife { get; set; }
         int AddAttackDistance { get; set; }
 
-        /// <summary>
-        /// 武器动作完成后可以选择的事件
-        /// </summary>
-        void CanDoEvents();
+        void BeforeSha();
+        void AfterSha(bool isSuccess);
 
-        /// <summary>
-        /// 武器动作完成之后必然要做的事件
-        /// </summary>
-        void MustDoEvents();
+
+        void BeforeShan();
+
+        void AfterShan(bool isSuccess);
+
+     
+
     }
 }
