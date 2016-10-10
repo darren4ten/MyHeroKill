@@ -48,6 +48,13 @@
     <Compile Include="Model\Card.cs" />
     <Compile Include="Model\CardModel.cs" />
     <Compile Include="Model\Enums.cs" />
+    <Compile Include="Model\Roles\IRole.cs" />
+    <Compile Include="Model\Roles\XiangyuRole.cs" />
+    <Compile Include="Model\Weapons\IDefenseWeapon.cs" />
+    <Compile Include="Model\Weapons\IWeapon.cs" />
+    <Compile Include="Model\Weapons\BaseWeapon.cs" />
+    <Compile Include="Model\Weapons\Longlindao.cs" />
+    <Compile Include="Model\Weapons\YuruyiWeapon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CardService.cs" />
@@ -55,7 +62,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Model\Skills\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

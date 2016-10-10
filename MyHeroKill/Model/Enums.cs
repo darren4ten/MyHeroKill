@@ -17,6 +17,13 @@ namespace MyHeroKill.Model
             HongTao
         }
 
+        public enum ECardColors
+        {
+            Any,//任意
+            Black,
+            Red
+        }
+
         public enum ECardGloabalType
         {
             Any = 0,//任意

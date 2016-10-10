@@ -12,6 +12,11 @@ namespace MyHeroKill.Model
     public class CardModel
     {
         /// <summary>
+        /// 所出的牌的真实类型
+        /// </summary>
+        public MyHeroKill.Model.Enums.ECardGloabalType FromCardGloabalType { get; set; }
+
+        /// <summary>
         /// 需要出的牌的真实类型
         /// </summary>
         public MyHeroKill.Model.Enums.ECardGloabalType NeedHandoutGloabalType { get; set; }
@@ -29,7 +34,7 @@ namespace MyHeroKill.Model
         /// <summary>
         /// 来源牌，原始牌（出牌方所出的牌）
         /// </summary>
-        public List<Card> CardsFrom { get; set; }
+        public List<Card> FromCards { get; set; }
 
         
         /// <summary>
