@@ -19,6 +19,7 @@ namespace MyHeroKill.Model
 
         public enum ECardGloabalType
         {
+            Any = 0,//任意
             Sha,//30
             Shan,//15
             Yao,//8
