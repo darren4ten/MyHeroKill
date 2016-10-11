@@ -37,12 +37,12 @@ namespace MyHeroKill.Model.Weapons
                 if (seed <= this.TriggerRate)
                 {
                     //可以免伤
-                    Console.WriteLine("不可以免伤");
+                    Console.WriteLine("可以免伤");
                 }
                 else
                 {
                     //不能免伤，需要出闪
-                    Console.WriteLine("可以免伤");
+                    Console.WriteLine("不可以免伤");
                 }
             }
 
