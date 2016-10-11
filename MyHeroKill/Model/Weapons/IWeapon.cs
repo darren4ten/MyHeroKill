@@ -22,16 +22,27 @@ namespace MyHeroKill.Model.Wepons
         int AddDamage { get; set; }
         int AddLife { get; set; }
         int AddAttackDistance { get; set; }
+        /// <summary>
+        /// 增加单回合杀的次数
+        /// </summary>
+        int AddAttackCount { get; set; }
 
-        void BeforeSha();
-        void AfterSha(bool isSuccess);
+        bool CanProvideSha { get; set; }
+        bool CanProvideShan { get; set; }
+        bool CanProvideJuedou { get; set; }
+        bool CanProvideWuxiekeji { get; set; }
+
+        void OnBeforeSha();
+        void OnAfterSha(bool isSuccess);
 
 
-        void BeforeShan();
+        void OnBeforeShan();
 
-        void AfterShan(bool isSuccess);
+        void OnAfterShan(bool isSuccess);
 
-     
-
+        void OnAskSha();
+        void OnAskShan();
+        void OnAskJuedou();
+        void OnAskWuxiekeji();
     }
 }

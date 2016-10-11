@@ -17,9 +17,7 @@ namespace MyHeroKill.Model.Weapons
         /// 触发颜色
         /// </summary>
         MyHeroKill.Model.Enums.ECardColors TriggerColor { get; }
-
-        bool CanDefenceSha { get; }
-
+        
         /// <summary>
         /// 可以免疫杀
         /// </summary>

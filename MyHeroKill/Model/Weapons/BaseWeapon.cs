@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyHeroKill.Model.Weapons
 {
-    public class BaseWeapon : IWeapon
+    public abstract class BaseWeapon : IWeapon
     {
         #region 属性
         public string Name
@@ -63,6 +63,36 @@ namespace MyHeroKill.Model.Weapons
             get;
             set;
         }
+
+        public int AddAttackCount
+        {
+            get;
+            set;
+        }
+
+        public bool CanProvideSha
+        {
+            get;
+            set;
+        }
+
+        public bool CanProvideShan
+        {
+            get;
+            set;
+        }
+
+        public bool CanProvideJuedou
+        {
+            get;
+            set;
+        }
+
+        public bool CanProvideWuxiekeji
+        {
+            get;
+            set;
+        }
         #endregion
 
         public BaseWeapon()
@@ -75,25 +105,52 @@ namespace MyHeroKill.Model.Weapons
             this.AddAttackDistance = 1;
             this.AddDamage = 0;
             this.AddLife = 0;
+            this.AddAttackCount = 0;
+            this.CanProvideJuedou = false;
+            this.CanProvideSha = false;
+            this.CanProvideShan = false;
+            this.CanProvideWuxiekeji = false;
         }
 
-        public void AfterSha(bool isSuccess)
+        public virtual void OnAfterSha(bool isSuccess)
         {
         }
 
-        public void AfterShan(bool isSuccess)
+        public virtual void OnAfterShan(bool isSuccess)
         {
         }
 
 
-        public void BeforeSha()
+        public virtual void OnBeforeSha()
         {
-            throw new NotImplementedException();
+
         }
 
-        public void BeforeShan()
+        public virtual void OnBeforeShan()
         {
-            throw new NotImplementedException();
+
         }
+
+        public virtual void OnAskSha()
+        {
+
+        }
+
+        public virtual void OnAskShan()
+        {
+
+        }
+
+
+        public virtual void OnAskJuedou()
+        {
+
+        }
+
+        public virtual void OnAskWuxiekeji()
+        {
+
+        }
+
     }
 }

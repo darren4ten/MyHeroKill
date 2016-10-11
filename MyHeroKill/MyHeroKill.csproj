@@ -53,6 +53,7 @@
     <Compile Include="Model\Weapons\IDefenseWeapon.cs" />
     <Compile Include="Model\Weapons\IWeapon.cs" />
     <Compile Include="Model\Weapons\BaseWeapon.cs" />
+    <Compile Include="Model\Weapons\HufuWeapon.cs" />
     <Compile Include="Model\Weapons\Longlindao.cs" />
     <Compile Include="Model\Weapons\YuruyiWeapon.cs" />
     <Compile Include="Program.cs" />
