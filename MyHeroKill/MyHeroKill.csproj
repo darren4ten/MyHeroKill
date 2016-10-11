@@ -50,6 +50,8 @@
     <Compile Include="Model\Enums.cs" />
     <Compile Include="Model\Roles\IRole.cs" />
     <Compile Include="Model\Roles\XiangyuRole.cs" />
+    <Compile Include="Model\Weapons\BaseDefenseWeapon.cs" />
+    <Compile Include="Model\Weapons\HeishadunDefenseWeapon.cs" />
     <Compile Include="Model\Weapons\IDefenseWeapon.cs" />
     <Compile Include="Model\Weapons\IWeapon.cs" />
     <Compile Include="Model\Weapons\BaseWeapon.cs" />

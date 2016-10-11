@@ -8,7 +8,6 @@ namespace MyHeroKill.Model.Wepons
 {
     public interface IWeapon
     {
-
         string Name { get; set; }
         /// <summary>
         /// 在牌堆中的位置
