@@ -73,6 +73,18 @@ namespace MyHeroKill.Model.Weapons
             set;
         }
 
+        public int PositionOfWeaponList
+        {
+            get;
+            set;
+        }
+
+        public int PositionOfSkillList
+        {
+            get;
+            set;
+        }
+
         public string ImgUrl
         {
             get;
@@ -156,6 +168,7 @@ namespace MyHeroKill.Model.Weapons
             this.BaseDamage = 0;
             this.BaseAttackDistance = 1;
             this.AddAttackDistance = 1;
+            
             this.AddDamage = 0;
             this.AddLife = 0;
             this.AddAttackCount = 0;
@@ -221,5 +234,7 @@ namespace MyHeroKill.Model.Weapons
         {
 
         }
+
+
     }
 }

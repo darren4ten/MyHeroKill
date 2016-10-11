@@ -1,13 +1,12 @@
-﻿using MyHeroKill.Model.Wepons;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyHeroKill.Model.Weapons
+namespace MyHeroKill.Model.Skills
 {
-    public abstract class BaseWeapon : IWeapon
+    public abstract class BaseSkill : ISkill
     {
         #region 属性
         public string Name
@@ -16,35 +15,12 @@ namespace MyHeroKill.Model.Weapons
             set;
         }
 
-        public int IndexOfCards
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// 在装备槽中的位置，0开头
-        /// </summary>
-        public int PositionOfWeaponList { get; set; }
-
         public string ImgUrl
         {
             get;
             set;
         }
-
-        public int BaseDamage
-        {
-            get;
-            set;
-        }
-
-        public int BaseLife
-        {
-            get;
-            set;
-        }
-
-        public int BaseAttackDistance
+        public Enums.ESkillType SkillType
         {
             get;
             set;
@@ -97,17 +73,17 @@ namespace MyHeroKill.Model.Weapons
             get;
             set;
         }
+        public bool CanProvideYao
+        {
+            get;
+            set;
+        }
         #endregion
 
-        public BaseWeapon()
+        public BaseSkill()
         {
-            this.Name = "武器";
-            this.IndexOfCards = 0;
-            this.PositionOfWeaponList = 0;
-            this.BaseLife = 0;
-            this.BaseDamage = 0;
-            this.BaseAttackDistance = 1;
-            this.AddAttackDistance = 1;
+            this.Name = "技能";
+            this.AddAttackDistance = 0;
             this.AddDamage = 0;
             this.AddLife = 0;
             this.AddAttackCount = 0;
@@ -115,9 +91,20 @@ namespace MyHeroKill.Model.Weapons
             this.CanProvideSha = false;
             this.CanProvideShan = false;
             this.CanProvideWuxiekeji = false;
+            this.CanProvideYao = false;
+            this.SkillType = Enums.ESkillType.Any;
+        }
+
+        public virtual void OnBeforeSha()
+        {
+
         }
 
         public virtual void OnAfterSha(bool isSuccess)
+        {
+        }
+
+        public virtual void OnBeforeShan()
         {
         }
 
@@ -125,37 +112,31 @@ namespace MyHeroKill.Model.Weapons
         {
         }
 
-
-        public virtual void OnBeforeSha()
-        {
-
-        }
-
-        public virtual void OnBeforeShan()
-        {
-
-        }
-
         public virtual void OnAskSha()
         {
-
         }
 
         public virtual void OnAskShan()
         {
-
         }
-
 
         public virtual void OnAskJuedou()
         {
-
         }
 
         public virtual void OnAskWuxiekeji()
         {
-
+        }
+        public virtual void OnAskYao()
+        {
         }
 
+        /// <summary>
+        /// 技能激活之后
+        /// </summary>
+        public virtual void OnSkillActive()
+        {
+
+        }
     }
 }

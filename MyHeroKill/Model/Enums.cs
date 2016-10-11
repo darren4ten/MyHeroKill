@@ -17,6 +17,9 @@ namespace MyHeroKill.Model
             HongTao
         }
 
+        /// <summary>
+        /// 卡牌颜色
+        /// </summary>
         public enum ECardColors
         {
             Any,//任意
@@ -24,6 +27,9 @@ namespace MyHeroKill.Model
             Red
         }
 
+        /// <summary>
+        /// 手牌的作用类型
+        /// </summary>
         public enum ECardGloabalType
         {
             Any = 0,//任意
@@ -52,6 +58,23 @@ namespace MyHeroKill.Model
             Bawanggong,//1
             Hufu,//2
             Bolangchui,//1
+        }
+
+        public enum ESkillType
+        {
+            /// <summary>
+            /// 任意类型
+            /// </summary>
+            Any = 0,
+            /// <summary>
+            /// 主技能
+            /// </summary>
+            MainSkill,
+
+            /// <summary>
+            /// 副技能
+            /// </summary>
+            AideSkill
         }
     }
 }

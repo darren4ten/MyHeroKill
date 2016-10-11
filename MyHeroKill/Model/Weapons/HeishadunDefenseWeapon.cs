@@ -18,6 +18,7 @@ namespace MyHeroKill.Model.Weapons
             this.CanDefenceHongSha = false;
             this.CanDefenceWanjianqifa = false;
             this.TriggerColor = Enums.ECardColors.Black;
+          
         }
 
         public Enums.ECardColors GetCardColor()

@@ -4,21 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyHeroKill.Model.Wepons
+namespace MyHeroKill.Model.Skills
 {
-    public interface IWeapon
+    public interface ISkill
     {
         string Name { get; set; }
-        /// <summary>
-        /// 在牌堆中的位置
-        /// </summary>
-        int IndexOfCards { get; set; }
-        int PositionOfWeaponList { get; set; }
         string ImgUrl { get; set; }
-        int BaseDamage { get; set; }
-        int BaseLife { get; set; }
-        int BaseAttackDistance { get; set; }
-
+        MyHeroKill.Model.Enums.ESkillType SkillType { get; set; }
         int AddDamage { get; set; }
         int AddLife { get; set; }
         int AddAttackDistance { get; set; }
@@ -32,14 +24,21 @@ namespace MyHeroKill.Model.Wepons
         bool CanProvideJuedou { get; set; }
         bool CanProvideWuxiekeji { get; set; }
 
+        bool CanProvideYao { get; set; }
+
+        /// <summary>
+        /// 技能激活之后
+        /// </summary>
+        void OnSkillActive();
+
         void OnBeforeSha();
         void OnAfterSha(bool isSuccess);
-
 
         void OnBeforeShan();
 
         void OnAfterShan(bool isSuccess);
 
+        void OnAskYao();
         void OnAskSha();
         void OnAskShan();
         void OnAskJuedou();

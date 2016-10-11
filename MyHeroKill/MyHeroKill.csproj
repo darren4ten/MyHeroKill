@@ -48,14 +48,27 @@
     <Compile Include="Model\Card.cs" />
     <Compile Include="Model\CardModel.cs" />
     <Compile Include="Model\Enums.cs" />
+    <Compile Include="Model\Roles\BianqueRole.cs" />
     <Compile Include="Model\Roles\IRole.cs" />
+    <Compile Include="Model\Roles\BaseRole.cs" />
+    <Compile Include="Model\Roles\SongjiangRole.cs" />
+    <Compile Include="Model\Roles\GuanyuRole.cs" />
     <Compile Include="Model\Roles\XiangyuRole.cs" />
+    <Compile Include="Model\Roles\YangyanzhaoRole.cs" />
+    <Compile Include="Model\Skills\BaseSkill.cs" />
+    <Compile Include="Model\Skills\BawangSkill.cs" />
+    <Compile Include="Model\Skills\BudaoSkill.cs" />
+    <Compile Include="Model\Skills\HuichunSkill.cs" />
+    <Compile Include="Model\Skills\ISkill.cs" />
+    <Compile Include="Model\Skills\LiaoshangSkill.cs" />
+    <Compile Include="Model\Skills\ShucaiSkill.cs" />
     <Compile Include="Model\Weapons\BaseDefenseWeapon.cs" />
     <Compile Include="Model\Weapons\HeishadunDefenseWeapon.cs" />
     <Compile Include="Model\Weapons\IDefenseWeapon.cs" />
     <Compile Include="Model\Weapons\IWeapon.cs" />
     <Compile Include="Model\Weapons\BaseWeapon.cs" />
     <Compile Include="Model\Weapons\HufuWeapon.cs" />
+    <Compile Include="Model\Weapons\JingongmaWeapon.cs" />
     <Compile Include="Model\Weapons\Longlindao.cs" />
     <Compile Include="Model\Weapons\YuruyiWeapon.cs" />
     <Compile Include="Program.cs" />
@@ -65,9 +78,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\Skills\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

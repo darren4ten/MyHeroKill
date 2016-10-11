@@ -7,22 +7,23 @@ using System.Threading.Tasks;
 
 namespace MyHeroKill.Model.Roles
 {
-    public class XiangyuRole : BaseRole
+    public class BianqueRole : BaseRole
     {
-        public XiangyuRole()
+        public BianqueRole()
         {
             this.IndexOfRoles = 1;
-            this.Name = "项羽";
+            this.Name = "扁鹊";
             this.SkinId = 0;
             this.BaseDamage = 1;
-            this.BaseLife = 4;
+            this.BaseLife = 3;
             this.BaseAttackDistance = 1;
             this.BaseAttackCount = 1;
             this.BaseSkills = new List<Skills.ISkill>();
-            //默认霸王技能
-            BawangSkill skill = new BawangSkill();
+            //默认疗伤技能
+            LiaoshangSkill skill = new LiaoshangSkill();
+            HuichunSkill skill2 = new HuichunSkill();
             this.BaseSkills.Add(skill);
-
+            this.BaseSkills.Add(skill2);
             this.AdditionalSkills = new List<Skills.ISkill>();
             this.AdditionalWeapons = new List<Wepons.IWeapon>();
 

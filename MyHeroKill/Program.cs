@@ -1,4 +1,6 @@
-﻿using MyHeroKill.Service;
+﻿using MyHeroKill.Model.Roles;
+using MyHeroKill.Model.Weapons;
+using MyHeroKill.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,7 @@ namespace MyHeroKill
         static void Main(string[] args)
         {
 
-            TestCard();
+            TestRoles();
             Console.Read();
         }
 
@@ -23,6 +25,30 @@ namespace MyHeroKill
             var cards = cardService.GetAllCard();
         }
 
+        static void TestRoles()
+        {
+            YangyanzhaoRole yyz = new YangyanzhaoRole();
+            SongjiangRole sj = new SongjiangRole();
+            BianqueRole bq = new BianqueRole();
+            XiangyuRole xy = new XiangyuRole();
+            GuanyuRole gy = new GuanyuRole();
+            Console.WriteLine(yyz.ToString());
+            Console.WriteLine(sj.ToString());
+            Console.WriteLine(bq.ToString());
+            Console.WriteLine(xy.ToString());
+            Console.WriteLine(gy.ToString());
+            bq.TriggerOnRoleAskYaoEvents();
+
+            //给宋江装备上玉如意、龙鳞刀
+            YuruyiWeapon wyry = new YuruyiWeapon();
+            Longlindao wlld = new Longlindao();
+            sj.EquipWeapon(wyry);
+            sj.EquipWeapon(wlld);
+            Console.WriteLine(sj);
+            //给关羽装上龙鳞刀
+            gy.EquipWeapon(wlld);
+            Console.WriteLine(gy);
+        }
         static void TestCard()
         {
             var cardService = new CardService();
