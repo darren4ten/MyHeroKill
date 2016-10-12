@@ -28,6 +28,8 @@ namespace MyHeroKill.Model.Roles
             set;
         }
 
+        public List<Card> CardsInHand { get; set; }
+
         public int SkinId
         {
             get;
@@ -134,6 +136,7 @@ namespace MyHeroKill.Model.Roles
             this.BaseAttackDistance = 1;
             this.BaseAttackCount = 1;
             this.BaseDefenseDistance = 0;
+            this.CardsInHand = new List<Card>();
             this.BaseSkills = new List<Skills.ISkill>();
             this.BaseWeapons = new List<Wepons.IWeapon>();
             this.AdditionalSkills = new List<Skills.ISkill>();

@@ -77,8 +77,217 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Images\" />
+    <ProjectReference Include="..\MyHeroKill\MyHeroKill.csproj">
+      <Project>{5c4242b9-e116-4283-9bba-b4c0617a986b}</Project>
+      <Name>MyHeroKill</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\HandCards\All\ansha.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\bawanggong.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\bolangchui.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\fangyuma.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\fenghuolangyan.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\fu.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\fudichouxin.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\geanguanhuo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\hezonglianheng.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\huadiweilao.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\hufu.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\huxinjing.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\jiedaosharen.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\jingongma.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\jinlinjia.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\juedou.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\jueliangmoxing.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\kongqueling.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\langyabang.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\longlindao.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\luyeqiang.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\panlonggun.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\qiankundai.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\sha.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\shan.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\shewoqishui.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\shoupenglei.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\tanlangquwu.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\toulianghuanzhu.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\wanjianqifa.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\wugufengdeng.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\wuxiekeji.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\wuzhongshengyou.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\xiuyangshengxi.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\xuesha.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\yao.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\yinxuejian.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\yuchangjian.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\yuruyi.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HandCards\All\zhen.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Roles\baosi.jpg" />
+    <Content Include="Images\Roles\bianque.jpg" />
+    <Content Include="Images\Roles\caocao.jpg" />
+    <Content Include="Images\Roles\chensheng.jpg" />
+    <Content Include="Images\Roles\chengyaojin.jpg" />
+    <Content Include="Images\Roles\chenyuanyuan.jpg" />
+    <Content Include="Images\Roles\goujian.jpg" />
+    <Content Include="Images\Roles\guanyu.jpg" />
+    <Content Include="Images\Roles\hanxin.jpg" />
+    <Content Include="Images\Roles\huamulan.jpg" />
+    <Content Include="Images\Roles\jingke.jpg" />
+    <Content Include="Images\Roles\likui.jpg" />
+    <Content Include="Images\Roles\lishimin.jpg" />
+    <Content Include="Images\Roles\lishishi.jpg" />
+    <Content Include="Images\Roles\liubang.jpg" />
+    <Content Include="Images\Roles\liubowen.jpg" />
+    <Content Include="Images\Roles\lizicheng.jpg" />
+    <Content Include="Images\Roles\lianpo.jpg" />
+    <Content Include="Images\Roles\luban.jpg" />
+    <Content Include="Images\Roles\luzhishen.jpg" />
+    <Content Include="Images\Roles\murong.jpg" />
+    <Content Include="Images\Roles\panan.jpg" />
+    <Content Include="Images\Roles\qinqiong.jpg" />
+    <Content Include="Images\Roles\renhuanzhi.jpg" />
+    <Content Include="Images\Roles\shangyang.jpg" />
+    <Content Include="Images\Roles\shiqian.jpg" />
+    <Content Include="Images\Roles\songjiang.jpg" />
+    <Content Include="Images\Roles\zhantaiming.jpg" />
+    <Content Include="Images\Roles\tiemuzhen.jpg" />
+    <Content Include="Images\Roles\wusong.jpg" />
+    <Content Include="Images\Roles\wuzetian.jpg" />
+    <Content Include="Images\Roles\xiangyu.jpg" />
+    <Content Include="Images\Roles\xiaoqiao.jpg" />
+    <Content Include="Images\Roles\xishi.jpg" />
+    <Content Include="Images\Roles\yangyanzhao.jpg" />
+    <Content Include="Images\Roles\yingzhen.jpg" />
+    <Content Include="Images\Roles\yuefei.jpg" />
+    <Content Include="Images\Roles\yuji.jpg" />
+    <Content Include="Images\Roles\lvzhi.jpg" />
+    <Content Include="Images\Roles\zhaofeiyan.jpg" />
+    <Content Include="Images\Roles\zhaokuangyin.jpg" />
+    <Content Include="Images\Roles\zhugeliang.jpg" />
+    <Content Include="Images\Roles\zhuyuanzhang.jpg" />
+    <Content Include="Images\HandCards\Basic\ansha.jpg" />
+    <Content Include="Images\HandCards\Basic\fu.jpg" />
+    <Content Include="Images\HandCards\Basic\sha.jpg" />
+    <Content Include="Images\HandCards\Basic\shan.jpg" />
+    <Content Include="Images\HandCards\Basic\xuesha.jpg" />
+    <Content Include="Images\HandCards\Basic\yao.jpg" />
+    <Content Include="Images\HandCards\Basic\zhen.jpg" />
+    <Content Include="Images\HandCards\Jinlang\fenghuolangyan.jpg" />
+    <Content Include="Images\HandCards\Jinlang\fudichouxin.jpg" />
+    <Content Include="Images\HandCards\Jinlang\geanguanhuo.jpg" />
+    <Content Include="Images\HandCards\Jinlang\hezonglianheng.jpg" />
+    <Content Include="Images\HandCards\Jinlang\huadiweilao.jpg" />
+    <Content Include="Images\HandCards\Jinlang\jiedaosharen.jpg" />
+    <Content Include="Images\HandCards\Jinlang\juedou.jpg" />
+    <Content Include="Images\HandCards\Jinlang\jueliangmoxing.jpg" />
+    <Content Include="Images\HandCards\Jinlang\shewoqishui.jpg" />
+    <Content Include="Images\HandCards\Jinlang\shoupenglei.jpg" />
+    <Content Include="Images\HandCards\Jinlang\tanlangquwu.jpg" />
+    <Content Include="Images\HandCards\Jinlang\toulianghuanzhu.jpg" />
+    <Content Include="Images\HandCards\Jinlang\wanjianqifa.jpg" />
+    <Content Include="Images\HandCards\Jinlang\wugufengdeng.jpg" />
+    <Content Include="Images\HandCards\Jinlang\wuxiekeji.jpg" />
+    <Content Include="Images\HandCards\Jinlang\wuzhongshengyou.jpg" />
+    <Content Include="Images\HandCards\Jinlang\xiuyangshengxi.jpg" />
+    <Content Include="Images\HandCards\Weapon\bawanggong.jpg" />
+    <Content Include="Images\HandCards\Weapon\bolangchui.jpg" />
+    <Content Include="Images\HandCards\Weapon\fangyuma.jpg" />
+    <Content Include="Images\HandCards\Weapon\hufu.jpg" />
+    <Content Include="Images\HandCards\Weapon\huxinjing.jpg" />
+    <Content Include="Images\HandCards\Weapon\jingongma.jpg" />
+    <Content Include="Images\HandCards\Weapon\jinlinjia.jpg" />
+    <Content Include="Images\HandCards\Weapon\kongqueling.jpg" />
+    <Content Include="Images\HandCards\Weapon\langyabang.jpg" />
+    <Content Include="Images\HandCards\Weapon\longlindao.jpg" />
+    <Content Include="Images\HandCards\Weapon\luyeqiang.jpg" />
+    <Content Include="Images\HandCards\Weapon\panlonggun.jpg" />
+    <Content Include="Images\HandCards\Weapon\qiankundai.jpg" />
+    <Content Include="Images\HandCards\Weapon\yinxuejian.jpg" />
+    <Content Include="Images\HandCards\Weapon\yuchangjian.jpg" />
+    <Content Include="Images\HandCards\Weapon\yuruyi.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

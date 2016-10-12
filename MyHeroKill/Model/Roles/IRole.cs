@@ -17,6 +17,7 @@ namespace MyHeroKill.Model
         string Name { get; set; }
         string ImgUrl { get; set; }
         MyHeroKill.Model.Enums.ERoleCampType CampType { get; set; }
+        List<Card> CardsInHand { get; set; }
         /// <summary>
         /// 皮肤ID
         /// </summary>

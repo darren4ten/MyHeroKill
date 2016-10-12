@@ -1,4 +1,5 @@
 ﻿using MyHeroKill.Model;
+using MyHeroKill.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,11 @@ namespace MyHeroKill.Managers
     /// </summary>
     public class HostManager
     {
+        public Dictionary<int, IRole> RolesPositionDic = new Dictionary<int, IRole>();
+        //洗过的整副牌
+        protected Stack<int> currentCardIndexes = new Stack<int>();
+        protected CardService cardService = new CardService();
+
         /// <summary>
         /// 接受客户端（具体人物的出牌请求）
         /// </summary>
@@ -30,5 +36,38 @@ namespace MyHeroKill.Managers
             }
         }
 
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
+            //洗牌
+            this.currentCardIndexes = cardService.GetNewCardAsStack();
+
+        }
+
+        /// <summary>
+        /// 摸牌
+        /// </summary>
+        /// <param name="number"></param>
+        public List<Card> GetCards(int number)
+        {
+            List<Card> list = new List<Card>();
+            for (int i = 0; i < number; i++)
+            {
+                if (this.currentCardIndexes.Count > 0)
+                {
+                    list.Add(cardService.GetCard(this.currentCardIndexes.Pop()));
+                }
+                else
+                {
+                    //没牌重新洗牌
+                    Console.WriteLine("没牌了，重新洗牌");
+                    this.currentCardIndexes = cardService.GetNewCardAsStack();
+                    list.Add(cardService.GetCard(this.currentCardIndexes.Pop()));
+                }
+            }
+            return list;
+        }
     }
 }

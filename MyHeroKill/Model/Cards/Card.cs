@@ -32,6 +32,8 @@ namespace MyHeroKill.Model
         /// </summary>
         public int IndexInCards { get; set; }
 
+        public MyHeroKill.Model.Enums.ECardGloabalType CardGloabalType { get; set; }
+
         #region Is属性
 
         #region 普通牌
@@ -88,6 +90,76 @@ namespace MyHeroKill.Model
         #endregion
 
         #endregion
+
+        /// <summary>
+        /// 获取牌的颜色
+        /// </summary>
+        /// <returns></returns>
+        public MyHeroKill.Model.Enums.ECardColors GetColor()
+        {
+            if (this.Type == Enums.ECardColorAndSignType.HeiTao || this.Type == Enums.ECardColorAndSignType.MeiHua)
+            {
+                return Enums.ECardColors.Black;
+            }
+            else
+            {
+                return Enums.ECardColors.Red;
+            }
+        }
+
+        /// <summary>
+        /// 获取牌的花色字符，如♠♥♦♣
+        /// </summary>
+        /// <returns></returns>
+        public string GetColorAndSignText()
+        {
+            switch (this.Type)
+            {
+                case Enums.ECardColorAndSignType.Any:
+                    return "";
+                case Enums.ECardColorAndSignType.MeiHua:
+                    return "♣";
+                case Enums.ECardColorAndSignType.FangPian:
+                    return "♦";
+                case Enums.ECardColorAndSignType.HeiTao:
+                    return "♠";
+                case Enums.ECardColorAndSignType.HongTao:
+                    return "♠";
+                default:
+                    return "";
+            }
+        }
+
+        /// <summary>
+        /// 获取卡牌的文字显示，如K
+        /// </summary>
+        /// <returns></returns>
+        public string GetNumberText()
+        {
+            switch (this.Number)
+            {
+                case 1:
+                    return "A";
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                case 10:
+                    return this.Number.ToString();
+                case 11:
+                    return "J";
+                case 12:
+                    return "Q";
+                case 13:
+                    return "K";
+                default:
+                    return "";
+            }
+        }
 
     }
 }

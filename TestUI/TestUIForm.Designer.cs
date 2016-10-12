@@ -44,18 +44,20 @@
             this.cWq0 = new System.Windows.Forms.Button();
             this.roleC = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.lblLifeA = new System.Windows.Forms.Label();
             this.lblCardNumA = new System.Windows.Forms.Label();
             this.lblCardNumB = new System.Windows.Forms.Label();
             this.lblLifeB = new System.Windows.Forms.Label();
             this.lblCardNumC = new System.Windows.Forms.Label();
             this.lblLifeC = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.panelHandCards = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.btnCardTemplate = new System.Windows.Forms.Button();
+            this.btnHandout = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.panelCardOperationButtons = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.panelCardOperationButtons.SuspendLayout();
             this.SuspendLayout();
             // 
             // roleA
@@ -189,6 +191,14 @@
             this.panel1.Size = new System.Drawing.Size(427, 216);
             this.panel1.TabIndex = 15;
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(15, 101);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(399, 104);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = "";
+            // 
             // lblLifeA
             // 
             this.lblLifeA.AutoSize = true;
@@ -246,13 +256,12 @@
             this.lblLifeC.TabIndex = 20;
             this.lblLifeC.Text = "0";
             // 
-            // panel2
+            // panelHandCards
             // 
-            this.panel2.Controls.Add(this.btnCardTemplate);
-            this.panel2.Location = new System.Drawing.Point(196, 265);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(427, 100);
-            this.panel2.TabIndex = 22;
+            this.panelHandCards.Location = new System.Drawing.Point(196, 265);
+            this.panelHandCards.Name = "panelHandCards";
+            this.panelHandCards.Size = new System.Drawing.Size(427, 100);
+            this.panelHandCards.TabIndex = 22;
             // 
             // panel3
             // 
@@ -261,32 +270,41 @@
             this.panel3.Size = new System.Drawing.Size(122, 130);
             this.panel3.TabIndex = 23;
             // 
-            // richTextBox1
+            // btnHandout
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(15, 101);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(399, 104);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
+            this.btnHandout.Location = new System.Drawing.Point(19, 4);
+            this.btnHandout.Name = "btnHandout";
+            this.btnHandout.Size = new System.Drawing.Size(75, 23);
+            this.btnHandout.TabIndex = 24;
+            this.btnHandout.Text = "出牌";
+            this.btnHandout.UseVisualStyleBackColor = true;
             // 
-            // btnCardTemplate
+            // btnCancel
             // 
-            this.btnCardTemplate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnCardTemplate.ForeColor = System.Drawing.Color.Coral;
-            this.btnCardTemplate.Location = new System.Drawing.Point(3, 11);
-            this.btnCardTemplate.Name = "btnCardTemplate";
-            this.btnCardTemplate.Size = new System.Drawing.Size(67, 82);
-            this.btnCardTemplate.TabIndex = 0;
-            this.btnCardTemplate.Text = "红桃A";
-            this.btnCardTemplate.UseVisualStyleBackColor = false;
+            this.btnCancel.Location = new System.Drawing.Point(100, 3);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 25;
+            this.btnCancel.Text = "取消";
+            this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // panelCardOperationButtons
+            // 
+            this.panelCardOperationButtons.Controls.Add(this.btnCancel);
+            this.panelCardOperationButtons.Controls.Add(this.btnHandout);
+            this.panelCardOperationButtons.Location = new System.Drawing.Point(410, 234);
+            this.panelCardOperationButtons.Name = "panelCardOperationButtons";
+            this.panelCardOperationButtons.Size = new System.Drawing.Size(200, 29);
+            this.panelCardOperationButtons.TabIndex = 26;
+            // 
+            // TestUIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(816, 412);
+            this.Controls.Add(this.panelCardOperationButtons);
             this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panelHandCards);
             this.Controls.Add(this.lblCardNumC);
             this.Controls.Add(this.lblLifeC);
             this.Controls.Add(this.lblCardNumB);
@@ -309,11 +327,12 @@
             this.Controls.Add(this.aWq0);
             this.Controls.Add(this.roleB);
             this.Controls.Add(this.roleA);
-            this.Name = "Form1";
+            this.Name = "TestUIForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.TestUIForm_Load);
             this.panel1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
+            this.panelCardOperationButtons.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -343,10 +362,12 @@
         private System.Windows.Forms.Label lblLifeB;
         private System.Windows.Forms.Label lblCardNumC;
         private System.Windows.Forms.Label lblLifeC;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panelHandCards;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.Button btnCardTemplate;
+        private System.Windows.Forms.Button btnHandout;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Panel panelCardOperationButtons;
     }
 }
 

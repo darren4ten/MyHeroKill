@@ -58,6 +58,7 @@ namespace MyHeroKill.Model
             Bawanggong,//1
             Hufu,//2
             Bolangchui,//1
+            Panlonggun//3
         }
 
         public enum ESkillType
