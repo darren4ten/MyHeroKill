@@ -45,8 +45,8 @@
     <Compile Include="Exstensions\DistinctExstention.cs" />
     <Compile Include="Managers\HandCardManager.cs" />
     <Compile Include="Managers\HostManager.cs" />
-    <Compile Include="Model\Card.cs" />
-    <Compile Include="Model\CardModel.cs" />
+    <Compile Include="Model\Cards\Card.cs" />
+    <Compile Include="Model\Cards\CardModel.cs" />
     <Compile Include="Model\Enums.cs" />
     <Compile Include="Model\Roles\BianqueRole.cs" />
     <Compile Include="Model\Roles\IRole.cs" />
