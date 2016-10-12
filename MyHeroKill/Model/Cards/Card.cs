@@ -34,6 +34,10 @@ namespace MyHeroKill.Model
 
         public MyHeroKill.Model.Enums.ECardGloabalType CardGloabalType { get; set; }
 
+        /// <summary>
+        /// 是否是选中状态
+        /// </summary>
+        public bool IsSelected { get; set; }
         #region Is属性
 
         #region 普通牌

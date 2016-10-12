@@ -13,10 +13,20 @@ namespace MyHeroKill.Managers
     /// </summary>
     public class HostManager
     {
-        public Dictionary<int, IRole> RolesPositionDic = new Dictionary<int, IRole>();
+        public int StartRoleIndex = 0;
         //洗过的整副牌
         protected Stack<int> currentCardIndexes = new Stack<int>();
+        protected Dictionary<int, IRole> RolesPositionDic = new Dictionary<int, IRole>();
         protected CardService cardService = new CardService();
+        protected int currentActiveRoleIndex = 0;
+        /// <summary>
+        /// 获取当前是谁的回合
+        /// </summary>
+        /// <returns></returns>
+        public int GetCurrentActiveRoleIndex()
+        {
+            return currentActiveRoleIndex;
+        }
 
         /// <summary>
         /// 接受客户端（具体人物的出牌请求）
@@ -39,10 +49,29 @@ namespace MyHeroKill.Managers
         /// <summary>
         /// 初始化
         /// </summary>
-        public void Init()
+        /// <param name="dic">所有角色及序号</param>
+        /// <param name="startRoleIndex">从角色列表中的哪个角色开始</param>
+        public void Init(Dictionary<int, IRole> dic, int currentRoleIndex, int startRoleIndex = -1)
         {
             //洗牌
             this.currentCardIndexes = cardService.GetNewCardAsStack();
+            if (dic != null)
+            {
+                if (startRoleIndex == -1)
+                {
+                    //开始出牌的是谁
+                    this.StartRoleIndex = new Random().Next(dic.Count + 1);
+                    //当前出牌的是谁
+                    this.currentActiveRoleIndex = this.StartRoleIndex;
+                }
+                else
+                {
+                    this.StartRoleIndex = startRoleIndex;
+                    this.currentActiveRoleIndex = startRoleIndex;
+                }
+
+            }
+            this.RolesPositionDic = dic;
 
         }
 

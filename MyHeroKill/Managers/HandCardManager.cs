@@ -10,6 +10,20 @@ namespace MyHeroKill.Managers
 {
     public class HandCardManager
     {
+
+        //是否是主动出牌
+        public bool IsAttack = true;
+        /// <summary>
+        /// 是否正在选定角色
+        /// </summary>
+        public bool IsSelectingTarget = false;
+        //当前用户在所有角色中的位置
+        public int CurrentIndex = 0;
+
+        /// <summary>
+        /// 获取当前的角色
+        /// </summary>
+        public IRole CurrentRole { get; set; }
         #region 获取用户的相关信息
         /// <summary>
         /// 获取用户手牌
@@ -37,6 +51,50 @@ namespace MyHeroKill.Managers
         }
 
         #endregion
+
+        /// <summary>
+        /// 是否可以主动出牌且需要选定角色
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        public bool IsActiveHandoutNeedSelectTargets(Card card)
+        {
+            //【需要主动选取对象的牌】
+            //[基本牌]
+            //杀（血杀，暗杀）
+            //[锦郎牌]
+            //探囊取物、釜底抽薪、画地为牢、决斗、借刀杀人（隔岸观火、合纵连横、绝粮莫兴、舍我其谁、偷梁换柱）
+            //【不能主动出牌】
+            if (card.CardGloabalType == Enums.ECardGloabalType.Sha || card.CardGloabalType == Enums.ECardGloabalType.Tanlangquwu
+                || card.CardGloabalType == Enums.ECardGloabalType.Fudichouxin || card.CardGloabalType == Enums.ECardGloabalType.Huadiweilao
+                || card.CardGloabalType == Enums.ECardGloabalType.Juedou || card.CardGloabalType == Enums.ECardGloabalType.Jiedaosharen
+                )
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 指定的牌是否可以主动出
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        public bool CanActiveHandout(Card card)
+        {
+            //不能主动出的牌：闪，无懈可击
+            if (card.CardGloabalType == Enums.ECardGloabalType.Shan || card.CardGloabalType == Enums.ECardGloabalType.Wuxiekeji)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
         /// <summary>
         /// 主动出牌

@@ -56,6 +56,9 @@
             this.btnHandout = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.panelCardOperationButtons = new System.Windows.Forms.Panel();
+            this.btnRoleBStatus = new System.Windows.Forms.Button();
+            this.btnRoleStatusA = new System.Windows.Forms.Button();
+            this.btnRoleStatusC = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panelCardOperationButtons.SuspendLayout();
             this.SuspendLayout();
@@ -68,6 +71,7 @@
             this.roleA.TabIndex = 0;
             this.roleA.Text = "角色A";
             this.roleA.UseVisualStyleBackColor = true;
+            this.roleA.Click += new System.EventHandler(this.roleA_Click);
             // 
             // roleB
             // 
@@ -77,6 +81,7 @@
             this.roleB.TabIndex = 1;
             this.roleB.Text = "角色B";
             this.roleB.UseVisualStyleBackColor = true;
+            this.roleB.Click += new System.EventHandler(this.roleB_Click);
             // 
             // aWq0
             // 
@@ -278,6 +283,7 @@
             this.btnHandout.TabIndex = 24;
             this.btnHandout.Text = "出牌";
             this.btnHandout.UseVisualStyleBackColor = true;
+            this.btnHandout.Click += new System.EventHandler(this.btnHandout_Click);
             // 
             // btnCancel
             // 
@@ -297,11 +303,38 @@
             this.panelCardOperationButtons.Size = new System.Drawing.Size(200, 29);
             this.panelCardOperationButtons.TabIndex = 26;
             // 
+            // btnRoleBStatus
+            // 
+            this.btnRoleBStatus.Location = new System.Drawing.Point(643, 194);
+            this.btnRoleBStatus.Name = "btnRoleBStatus";
+            this.btnRoleBStatus.Size = new System.Drawing.Size(143, 10);
+            this.btnRoleBStatus.TabIndex = 27;
+            this.btnRoleBStatus.UseVisualStyleBackColor = true;
+            // 
+            // btnRoleStatusA
+            // 
+            this.btnRoleStatusA.Location = new System.Drawing.Point(24, 194);
+            this.btnRoleStatusA.Name = "btnRoleStatusA";
+            this.btnRoleStatusA.Size = new System.Drawing.Size(143, 10);
+            this.btnRoleStatusA.TabIndex = 28;
+            this.btnRoleStatusA.UseVisualStyleBackColor = true;
+            // 
+            // btnRoleStatusC
+            // 
+            this.btnRoleStatusC.Location = new System.Drawing.Point(24, 380);
+            this.btnRoleStatusC.Name = "btnRoleStatusC";
+            this.btnRoleStatusC.Size = new System.Drawing.Size(143, 10);
+            this.btnRoleStatusC.TabIndex = 29;
+            this.btnRoleStatusC.UseVisualStyleBackColor = true;
+            // 
             // TestUIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(816, 412);
+            this.Controls.Add(this.btnRoleStatusC);
+            this.Controls.Add(this.btnRoleStatusA);
+            this.Controls.Add(this.btnRoleBStatus);
             this.Controls.Add(this.panelCardOperationButtons);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panelHandCards);
@@ -368,6 +401,9 @@
         private System.Windows.Forms.Button btnHandout;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Panel panelCardOperationButtons;
+        private System.Windows.Forms.Button btnRoleBStatus;
+        private System.Windows.Forms.Button btnRoleStatusA;
+        private System.Windows.Forms.Button btnRoleStatusC;
     }
 }
 
