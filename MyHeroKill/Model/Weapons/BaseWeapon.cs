@@ -22,7 +22,7 @@ namespace MyHeroKill.Model.Weapons
             set;
         }
         /// <summary>
-        /// 在装备槽中的位置，0开头
+        /// 装备位置：0-防御马，1-进攻马，2-防具，3-武器
         /// </summary>
         public int PositionOfWeaponList { get; set; }
 
@@ -49,7 +49,7 @@ namespace MyHeroKill.Model.Weapons
             get;
             set;
         }
-
+        public int AddDefenceDistance { get; set; }
         public int AddDamage
         {
             get;
@@ -99,15 +99,20 @@ namespace MyHeroKill.Model.Weapons
         }
         #endregion
 
+        /// <summary>
+        /// 装备位置：0-防御马，1-进攻马，2-防具，3-武器
+        /// </summary>
         public BaseWeapon()
         {
             this.Name = "武器";
             this.IndexOfCards = 0;
+            
             this.PositionOfWeaponList = 0;
             this.BaseLife = 0;
             this.BaseDamage = 0;
             this.BaseAttackDistance = 1;
             this.AddAttackDistance = 1;
+            this.AddDefenceDistance = 0;
             this.AddDamage = 0;
             this.AddLife = 0;
             this.AddAttackCount = 0;

@@ -14,6 +14,7 @@ namespace MyHeroKill.Model.Skills
         int AddDamage { get; set; }
         int AddLife { get; set; }
         int AddAttackDistance { get; set; }
+        int AddDefenceDistance { get; set; }
         /// <summary>
         /// 增加单回合杀的次数
         /// </summary>

@@ -14,6 +14,7 @@ namespace MyHeroKill.Model.Weapons
         {
             this.Name = "玉如意";
             this.IndexOfCards = 0;
+            this.PositionOfWeaponList = 2;
             this.BaseLife = 0;
             this.BaseDamage = 0;
             this.BaseAttackDistance = 0;

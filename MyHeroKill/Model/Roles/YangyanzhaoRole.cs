@@ -14,6 +14,7 @@ namespace MyHeroKill.Model.Roles
             this.IndexOfRoles = 1;
             this.Name = "杨延昭";
             this.SkinId = 0;
+            this.CampType = Enums.ERoleCampType.Chen;
             this.BaseDamage = 1;
             this.BaseLife = 4;
             this.BaseAttackDistance = 1;
@@ -23,6 +24,7 @@ namespace MyHeroKill.Model.Roles
             //默认装备虎符
             this.BaseWeapons = new List<Wepons.IWeapon>();
             HufuWeapon hufu = new HufuWeapon();
+            hufu.AddAttackDistance = 0;
             this.BaseWeapons.Add(hufu);
 
             this.AdditionalSkills = new List<Skills.ISkill>();

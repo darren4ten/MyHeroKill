@@ -50,6 +50,12 @@ namespace MyHeroKill.Model.Skills
             set;
         }
 
+        public int AddDefenceDistance
+        {
+            get;
+            set;
+        }
+
         public bool CanProvideSha
         {
             get;
@@ -138,5 +144,7 @@ namespace MyHeroKill.Model.Skills
         {
 
         }
+
+
     }
 }

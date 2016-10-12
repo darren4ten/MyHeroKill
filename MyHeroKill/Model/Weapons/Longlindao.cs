@@ -11,6 +11,7 @@ namespace MyHeroKill.Model.Weapons
         public Longlindao()
         {
             this.Name = "龙鳞刀";
+            this.PositionOfWeaponList = 3;
             this.IndexOfCards = 0;
             this.BaseLife = 0;
             this.BaseDamage = 0;

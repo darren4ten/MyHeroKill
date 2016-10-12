@@ -11,6 +11,7 @@ namespace MyHeroKill.Model.Weapons
         public JingongmaWeapon()
         {
             this.Name = "进攻马";
+            this.PositionOfWeaponList = 1;
             this.IndexOfCards = 0;
             this.BaseLife = 0;
             this.BaseDamage = 0;

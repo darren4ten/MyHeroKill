@@ -16,7 +16,7 @@ namespace MyHeroKill.Model
         int IndexOfRoles { get; set; }
         string Name { get; set; }
         string ImgUrl { get; set; }
-
+        MyHeroKill.Model.Enums.ERoleCampType CampType { get; set; }
         /// <summary>
         /// 皮肤ID
         /// </summary>
@@ -25,6 +25,7 @@ namespace MyHeroKill.Model
         int BaseDamage { get; set; }
         int BaseLife { get; set; }
         int BaseAttackDistance { get; set; }
+        int BaseDefenseDistance { get; set; }
         int BaseAttackCount { get; set; }
         List<ISkill> BaseSkills { get; set; }
         List<IWeapon> BaseWeapons { get; set; }
@@ -34,6 +35,7 @@ namespace MyHeroKill.Model
         int CurrentDamage { get; set; }
         int CurrentLife { get; set; }
         int CurrentAttackDistance { get; set; }
+        int CurrentDefenceDistance { get; set; }
         int CurrentAttackCount { get; set; }
         int MaxLife { get; set; }
         /// <summary>

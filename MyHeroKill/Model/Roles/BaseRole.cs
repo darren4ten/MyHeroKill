@@ -34,6 +34,11 @@ namespace MyHeroKill.Model.Roles
             set;
         }
 
+        public Enums.ERoleCampType CampType
+        {
+            get;
+            set;
+        }
         public int BaseDamage
         {
             get;
@@ -98,23 +103,44 @@ namespace MyHeroKill.Model.Roles
             set;
         }
         public int CurrentAttackCount { get; set; }
+
+        /// <summary>
+        /// 基础防御距离
+        /// </summary>
+        public int BaseDefenseDistance
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 当前防御距离
+        /// </summary>
+        public int CurrentDefenceDistance
+        {
+            get;
+            set;
+        }
         #endregion
 
         public BaseRole()
         {
             this.IndexOfRoles = 1;
+            this.CampType = Enums.ERoleCampType.Any;
             this.Name = "英雄";
             this.SkinId = 0;
             this.BaseDamage = 1;
             this.BaseLife = 3;
             this.BaseAttackDistance = 1;
             this.BaseAttackCount = 1;
+            this.BaseDefenseDistance = 0;
             this.BaseSkills = new List<Skills.ISkill>();
             this.BaseWeapons = new List<Wepons.IWeapon>();
             this.AdditionalSkills = new List<Skills.ISkill>();
             this.AdditionalWeapons = new List<Wepons.IWeapon>();
             this.CurrentDamage = this.BaseDamage;
             this.CurrentLife = this.BaseLife;
+            this.CurrentDefenceDistance = this.BaseDefenseDistance;
             this.CurrentAttackDistance = this.BaseAttackDistance;
             this.CurrentAttackCount = this.BaseAttackCount;
             this.SumRoleProperties();
@@ -189,6 +215,7 @@ namespace MyHeroKill.Model.Roles
                 this.BaseAttackDistance += item.AddAttackDistance;
                 this.CurrentAttackDistance += item.AddAttackDistance;
                 this.CurrentAttackCount += item.AddAttackCount;
+                this.CurrentDefenceDistance += item.AddDefenceDistance;
                 //事件
                 this.OnRoleAskShaEvents += item.OnAskSha;
                 this.OnRoleAskShanEvents += item.OnAskShan;
@@ -202,6 +229,7 @@ namespace MyHeroKill.Model.Roles
                 this.CurrentDamage += item.AddDamage;
                 this.CurrentAttackDistance += item.AddAttackDistance;
                 this.CurrentAttackCount += item.AddAttackCount;
+                this.CurrentDefenceDistance += item.AddDefenceDistance;
                 maxDistance = maxDistance > item.AddAttackDistance ? maxDistance : item.AddAttackDistance;
                 //事件
                 this.OnRoleAskShaEvents += item.OnAskSha;
@@ -215,7 +243,7 @@ namespace MyHeroKill.Model.Roles
                 this.CurrentDamage += item.AddDamage;
                 this.BaseAttackDistance += item.AddAttackDistance;
                 this.CurrentAttackDistance = Math.Max(this.CurrentAttackDistance, item.AddAttackDistance);
-                //this.CurrentAttackDistance += item.AddAttackDistance;
+                this.CurrentDefenceDistance += item.AddDefenceDistance;
                 this.CurrentAttackCount += item.AddAttackCount;
 
                 //事件
@@ -227,6 +255,7 @@ namespace MyHeroKill.Model.Roles
             {
                 this.CurrentLife += item.AddLife;
                 this.CurrentDamage += item.AddDamage;
+                this.CurrentDefenceDistance += item.AddDefenceDistance;
                 this.CurrentAttackDistance = Math.Max(this.CurrentAttackDistance, item.AddAttackDistance);
                 maxDistance = maxDistance > item.AddAttackDistance ? maxDistance : item.AddAttackDistance;
                 this.CurrentAttackCount += item.AddAttackCount;
@@ -236,20 +265,65 @@ namespace MyHeroKill.Model.Roles
                 this.OnRoleAskShanEvents += item.OnAskShan;
                 this.OnRoleAskWuxiekejiEvents += item.OnAskWuxiekeji;
             }
-            this.CurrentAttackDistance = this.BaseAttackDistance + maxDistance;
+            this.CurrentAttackDistance = Math.Max(this.BaseAttackDistance, maxDistance);
 
+        }
+
+        protected void AddWeapon(IWeapon wp)
+        {
+            Console.WriteLine("。。。加装备-" + wp.Name);
+            this.CurrentLife += wp.AddLife;
+            this.CurrentDamage += wp.AddDamage;
+            this.CurrentDefenceDistance += wp.AddDefenceDistance;
+            if (wp.PositionOfWeaponList == 3)
+            {
+                //检查是否有进攻马，最后减去默认的距离1
+                var jingongma = this.AdditionalWeapons.FirstOrDefault(p => p.PositionOfWeaponList == 1);
+                this.CurrentAttackDistance = this.BaseAttackDistance + (jingongma == null ? 0 : 1) + wp.AddAttackDistance - 1;
+            }
+
+            this.CurrentAttackCount += wp.AddAttackCount;
+            this.AdditionalWeapons.Add(wp);
+            //事件
+            this.OnRoleAskShaEvents += wp.OnAskSha;
+            this.OnRoleAskShanEvents += wp.OnAskShan;
+            this.OnRoleAskWuxiekejiEvents += wp.OnAskWuxiekeji;
         }
 
         public virtual void EquipWeapon(IWeapon wp)
         {
-            this.AdditionalWeapons.Add(wp);
-            this.SumRoleProperties();
+            var existsWeapon = this.AdditionalWeapons.FirstOrDefault(p => p.PositionOfWeaponList == wp.PositionOfWeaponList);
+            if (existsWeapon != null)
+            {
+                this.UnEquipWeapon(existsWeapon);
+            }
+            this.AddWeapon(wp);
         }
 
         public virtual void UnEquipWeapon(IWeapon wp)
         {
+            Console.WriteLine("。。。卸掉装备-" + wp.Name);
+            //去除该武器所加的所有属性
+            this.CurrentLife -= wp.AddLife;
+            this.CurrentDamage -= wp.AddDamage;
+            this.CurrentDefenceDistance -= wp.AddDefenceDistance;
+            this.CurrentAttackDistance = Math.Max(this.CurrentAttackDistance - wp.AddAttackDistance, 1);
+
+            //如果是进攻武器，则直接重新计算距离
+            if (wp.PositionOfWeaponList == 3)
+            {
+                //检查是否有进攻马，最后减去默认的距离1
+                var jingongma = this.AdditionalWeapons.FirstOrDefault(p => p.PositionOfWeaponList == 1);
+                this.CurrentAttackDistance = this.BaseAttackDistance + (jingongma == null ? 0 : 1);
+            }
+
+            this.CurrentAttackCount -= wp.AddAttackCount;
+            //事件
+            this.OnRoleAskShaEvents -= wp.OnAskSha;
+            this.OnRoleAskShanEvents -= wp.OnAskShan;
+            this.OnRoleAskWuxiekejiEvents -= wp.OnAskWuxiekeji;
+
             this.AdditionalWeapons.Remove(wp);
-            this.SumRoleProperties();
         }
 
         public override string ToString()
@@ -260,12 +334,11 @@ namespace MyHeroKill.Model.Roles
             string bsk = "基础技能：" + string.Join("、", this.BaseSkills.Select(p => p.Name));
             string ask = "附加技能：" + string.Join("、", this.AdditionalSkills.Select(p => p.Name));
 
-            string msg = String.Format("角色名称：{0}\r\n基础血量：{1}\r\n攻击范围:{2}\r\n单回合可攻击次数：{3}\r\n{4}\r\n{5}\r\n{6}\r\n{7}\r\n",
-                                            this.Name, this.BaseLife, this.CurrentAttackDistance, this.CurrentAttackCount, bwp, awp, bsk, ask);
+            string msg = String.Format("角色名称：{0}\r\n基础血量：{1}\r\n攻击范围:{2}\r\n防御距离：{8}\r\n单回合可攻击次数：{3}\r\n{4}\r\n{5}\r\n{6}\r\n{7}\r\n",
+                                            this.Name, this.BaseLife, this.CurrentAttackDistance, this.CurrentAttackCount, bwp, awp, bsk, ask, this.CurrentDefenceDistance);
 
             return msg;
         }
-
 
     }
 }

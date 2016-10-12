@@ -132,7 +132,11 @@ namespace MyHeroKill.Model.Weapons
             get;
             set;
         }
-
+        public int AddDefenceDistance
+        {
+            get;
+            set;
+        }
         public bool CanProvideSha
         {
             get;
@@ -168,7 +172,7 @@ namespace MyHeroKill.Model.Weapons
             this.BaseDamage = 0;
             this.BaseAttackDistance = 1;
             this.AddAttackDistance = 1;
-            
+            this.AddDefenceDistance = 0;
             this.AddDamage = 0;
             this.AddLife = 0;
             this.AddAttackCount = 0;
@@ -234,7 +238,6 @@ namespace MyHeroKill.Model.Weapons
         {
 
         }
-
 
     }
 }

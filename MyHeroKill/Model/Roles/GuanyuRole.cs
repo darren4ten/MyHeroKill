@@ -15,6 +15,7 @@ namespace MyHeroKill.Model.Roles
             this.IndexOfRoles = 1;
             this.Name = "关羽";
             this.SkinId = 0;
+            this.CampType = Enums.ERoleCampType.Chen;
             this.BaseDamage = 1;
             this.BaseLife = 4;
             this.BaseAttackDistance = 1;

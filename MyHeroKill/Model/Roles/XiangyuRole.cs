@@ -13,6 +13,7 @@ namespace MyHeroKill.Model.Roles
         {
             this.IndexOfRoles = 1;
             this.Name = "项羽";
+            this.CampType = Enums.ERoleCampType.Jun;
             this.SkinId = 0;
             this.BaseDamage = 1;
             this.BaseLife = 4;

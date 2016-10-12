@@ -76,5 +76,28 @@ namespace MyHeroKill.Model
             /// </summary>
             AideSkill
         }
+
+        /// <summary>
+        /// 角色阵营
+        /// </summary>
+        public enum ERoleCampType
+        {
+            /// <summary>
+            /// 任意
+            /// </summary>
+            Any = 0,
+            /// <summary>
+            /// 君
+            /// </summary>
+            Jun,
+            /// <summary>
+            /// 民
+            /// </summary>
+            Min,
+            /// <summary>
+            /// 臣
+            /// </summary>
+            Chen
+        }
     }
 }
