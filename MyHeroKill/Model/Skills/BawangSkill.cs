@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyHeroKill.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,10 +23,13 @@ namespace MyHeroKill.Model.Skills
             this.CanProvideYao = false;
             this.SkillType = Enums.ESkillType.MainSkill;
         }
-        
-        public override void OnBeforeSha()
+
+        public override void OnBeforeSha(HandCardManager handCardManager)
         {
             //在杀之前，被攻击方需要出两张闪
+            var cardModel = handCardManager.GetCardModel();
+            cardModel.NeedHandoutCardCount += 1;
+            handCardManager.SetCardModel(cardModel);
         }
 
         public override void OnAskJuedou()

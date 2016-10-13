@@ -146,5 +146,42 @@ namespace MyHeroKill.Model.Skills
         }
 
 
+
+
+        public void OnBeforeSha(Managers.HandCardManager handCardManager)
+        {
+        }
+
+        public void OnAfterSha(Managers.HandCardManager handCardManager, bool isSuccess)
+        {
+        }
+
+        public void OnBeforeShan(Managers.HandCardManager handCardManager)
+        {
+        }
+
+        public void OnAfterShan(Managers.HandCardManager handCardManager, bool isSuccess)
+        {
+        }
+
+        public void OnAskYao(Managers.HandCardManager handCardManager)
+        {
+        }
+
+        public void OnAskSha(Managers.HandCardManager handCardManager)
+        {
+        }
+
+        public void OnAskShan(Managers.HandCardManager handCardManager)
+        {
+        }
+
+        public void OnAskJuedou(Managers.HandCardManager handCardManager)
+        {
+        }
+
+        public void OnAskWuxiekeji(Managers.HandCardManager handCardManager)
+        {
+        }
     }
 }

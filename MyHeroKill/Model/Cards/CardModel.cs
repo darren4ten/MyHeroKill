@@ -27,6 +27,10 @@ namespace MyHeroKill.Model
         public MyHeroKill.Model.Enums.ECardColorAndSignType NeedHandoutCardColorAndSign { get; set; }
 
         /// <summary>
+        /// 是否不可以抵御杀
+        /// </summary>
+        public bool CanNotDefenseSha { get; set; }
+        /// <summary>
         /// 需要出牌的数量
         /// </summary>
         public int NeedHandoutCardCount { get; set; }

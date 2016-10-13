@@ -303,19 +303,25 @@
             this.panelCardOperationButtons.Size = new System.Drawing.Size(200, 29);
             this.panelCardOperationButtons.TabIndex = 26;
             // 
-            // btnRoleBStatus
+            // btnRoleStatusB
             // 
-            this.btnRoleStatusB.Location = new System.Drawing.Point(643, 194);
-            this.btnRoleStatusB.Name = "btnRoleBStatus";
-            this.btnRoleStatusB.Size = new System.Drawing.Size(143, 10);
+            this.btnRoleStatusB.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnRoleStatusB.FlatAppearance.BorderSize = 2;
+            this.btnRoleStatusB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRoleStatusB.Location = new System.Drawing.Point(677, 181);
+            this.btnRoleStatusB.Name = "btnRoleStatusB";
+            this.btnRoleStatusB.Size = new System.Drawing.Size(109, 23);
             this.btnRoleStatusB.TabIndex = 27;
             this.btnRoleStatusB.UseVisualStyleBackColor = true;
             // 
             // btnRoleStatusA
             // 
-            this.btnRoleStatusA.Location = new System.Drawing.Point(24, 194);
+            this.btnRoleStatusA.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnRoleStatusA.FlatAppearance.BorderSize = 2;
+            this.btnRoleStatusA.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRoleStatusA.Location = new System.Drawing.Point(24, 181);
             this.btnRoleStatusA.Name = "btnRoleStatusA";
-            this.btnRoleStatusA.Size = new System.Drawing.Size(143, 10);
+            this.btnRoleStatusA.Size = new System.Drawing.Size(109, 23);
             this.btnRoleStatusA.TabIndex = 28;
             this.btnRoleStatusA.UseVisualStyleBackColor = true;
             // 

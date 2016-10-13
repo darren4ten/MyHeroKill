@@ -1,6 +1,7 @@
 ﻿using MyHeroKill.Model;
 using MyHeroKill.Service;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,16 +14,15 @@ namespace MyHeroKill.Managers
 
         //是否是主动出牌
         public bool IsAttack = true;
-        /// <summary>
-        /// 是否正在选定角色
-        /// </summary>
-        public bool IsSelectingTarget = false;
+
 
         //当前用户在所有角色中的位置
         public int CurrentIndex = 0;
 
-        protected List<IRole> _currentTargets = new List<IRole>();
+        //当前的CardModel
+        protected CardModel _currentCardModel { get; set; }
 
+        protected ArrayList _currentTargets = new ArrayList();
         /// <summary>
         /// 获取当前的角色
         /// </summary>
@@ -60,7 +60,7 @@ namespace MyHeroKill.Managers
         /// </summary>
         public void CleanTargets()
         {
-            _currentTargets = new List<IRole>();
+            _currentTargets = new ArrayList();
         }
 
         /// <summary>
@@ -72,7 +72,11 @@ namespace MyHeroKill.Managers
         {
 
             //加上攻击目标，如果目标已经选中则将其移除，不存在则添加
-            var currentRole = _currentTargets.FirstOrDefault(p => p.Name == role.Name);
+
+            var currentRole = (from IRole r in _currentTargets
+                               where r.Name == role.Name
+                               select r).FirstOrDefault();
+
             if (currentRole == null)
             {
                 //不存在，则检查是否达到最大攻击目标数
@@ -80,7 +84,7 @@ namespace MyHeroKill.Managers
                 if (_currentTargets.Count >= maxTargetNum)
                 {
                     //去掉最后一个
-                    _currentTargets.Remove(_currentTargets.Last());
+                    _currentTargets.RemoveAt(_currentTargets.Count - 1);
                     _currentTargets.Add(role);
                 }
                 else
@@ -101,9 +105,22 @@ namespace MyHeroKill.Managers
         /// 获取当前选中的目标
         /// </summary>
         /// <returns></returns>
-        public List<IRole> GetTargets()
+        public ArrayList GetTargets()
         {
-            return _currentTargets;
+            return this._currentTargets;
+        }
+
+        /// <summary>
+        /// 目标中是否包含指定角色
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        public bool ContainsRoleInTargets(IRole role)
+        {
+            var query = from IRole r in this._currentTargets
+                        where r.Name == role.Name
+                        select r;
+            return query != null && query.Count() > 0;
         }
 
         /// <summary>
@@ -124,6 +141,11 @@ namespace MyHeroKill.Managers
                                 this.CurrentRole.CardsInHand.Count == 1)
                 {
                     return 3;
+                }
+                else if (selectedCard.CardGloabalType == Enums.ECardGloabalType.Jiedaosharen)
+                {
+                    //借刀杀人目标是2
+                    return 2;
                 }
                 else
                 {
@@ -178,6 +200,135 @@ namespace MyHeroKill.Managers
             else
             {
                 return true;
+            }
+        }
+
+        /// <summary>
+        /// 获取当前可以出的牌，如果没有可以出的牌（或者选定的牌太多）则返回null
+        /// </summary>
+        /// <returns></returns>
+        public Card GetHandoutCard()
+        {
+            if (this.CurrentRole.CardsInHand.Count(p => p.IsSelected) == 1)
+            {
+                var card = this.CurrentRole.CardsInHand.First(p => p.IsSelected);
+                return card;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 获取出牌模型
+        /// </summary>
+        /// <returns></returns>
+        public CardModel GetCardModel()
+        {
+            return this._currentCardModel;
+        }
+
+        /// <summary>
+        /// 更新模型
+        /// </summary>
+        /// <param name="cardModel"></param>
+        public void SetCardModel(CardModel cardModel)
+        {
+            this._currentCardModel = cardModel;
+        }
+
+
+        /// <summary>
+        /// 获取指定牌需要出什么牌
+        /// </summary>
+        /// <param name="attackCardType"></param>
+        /// <returns></returns>
+        protected Enums.ECardGloabalType GetNeedHandoutCardType(Enums.ECardGloabalType attackCardType)
+        {
+            //TODO:枚举的按位与和按位或
+            switch (attackCardType)
+            {
+                case Enums.ECardGloabalType.Sha:
+                    return Enums.ECardGloabalType.Shan;
+
+                case Enums.ECardGloabalType.Wanjianqifa:
+                    return Enums.ECardGloabalType.Shan;
+
+                case Enums.ECardGloabalType.Fudichouxin:
+                    return Enums.ECardGloabalType.Wuxiekeji;
+
+                case Enums.ECardGloabalType.Jiedaosharen:
+                    return Enums.ECardGloabalType.Sha | Enums.ECardGloabalType.Wuxiekeji;
+
+                case Enums.ECardGloabalType.Juedou:
+                    return Enums.ECardGloabalType.Sha | Enums.ECardGloabalType.Wuxiekeji;
+
+                case Enums.ECardGloabalType.Fenghuolangyan:
+                    return Enums.ECardGloabalType.Sha | Enums.ECardGloabalType.Wuxiekeji;
+
+                case Enums.ECardGloabalType.Tanlangquwu:
+                    return Enums.ECardGloabalType.Wuxiekeji;
+
+                default:
+                    return Enums.ECardGloabalType.Any;
+            }
+        }
+
+        /// <summary>
+        /// 更新CardModel
+        /// </summary>
+        /// <param name="hostManager"></param>
+        /// <returns></returns>
+        public CardModel SetCardModel(HostManager hostManager)
+        {
+            if (this.GetTargets().Count > 0)
+            {
+                Model.CardModel cardModel = new CardModel();
+                cardModel.FromCardGloabalType = this.CurrentRole.CardsInHand.First(p => p.IsSelected).CardGloabalType;
+                cardModel.FromCards = this.CurrentRole.CardsInHand.Where(p => p.IsSelected).ToList();
+
+                cardModel.CanNotDefenseSha = false;
+                cardModel.NeedHandoutCardColorAndSign = Enums.ECardColorAndSignType.Any;
+                //根据角色技能、装备决定伤害值
+                cardModel.NeedHandoutCardCount = 1;
+                //根据真实牌类型来判断需要出什么牌
+                cardModel.NeedHandoutGloabalType = this.GetNeedHandoutCardType(cardModel.FromCardGloabalType);
+
+                var t = this.GetTargets().ToArray().Select(p => hostManager.GetRoleIndex((IRole)p));
+                hostManager.SendRequest(this.GetCurrentUserIndex(), t.ToArray(), cardModel);
+                return cardModel;
+            }
+            else
+            {
+                Console.WriteLine("没牌啊，出啥？");
+                return null;
+            }
+        }
+
+        public void AttackHandOut(HostManager hostManager)
+        {
+            //根据角色的武器、技能来构造CardModel。如攻击强度、所需要出牌数
+            this.SetCardModel(hostManager);
+            var cardModel = this.GetCardModel();
+            if (cardModel.FromCardGloabalType == Enums.ECardGloabalType.Sha)
+            {
+                this.CurrentRole.BaseWeapons.ForEach(p =>
+                {
+                    p.OnBeforeSha(this);
+                });
+                this.CurrentRole.AdditionalWeapons.ForEach(p =>
+                {
+                    p.OnBeforeSha(this);
+                });
+                this.CurrentRole.BaseSkills.ForEach(p =>
+                {
+                    p.OnBeforeSha(this);
+                });
+                this.CurrentRole.AdditionalSkills.ForEach(p =>
+                {
+                    p.OnBeforeSha(this);
+                });
             }
         }
 

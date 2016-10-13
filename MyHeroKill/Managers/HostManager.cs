@@ -38,12 +38,61 @@ namespace MyHeroKill.Managers
         }
 
         /// <summary>
+        /// 获取角色在牌桌的位置
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        public int GetRoleIndex(IRole role)
+        {
+
+            if (this._rolesPositionDic.Values.Any(p => p.Name == role.Name))
+            {
+                var selectRoleKV = this._rolesPositionDic.First(p => p.Value.Name == role.Name);
+                return selectRoleKV.Key;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        /// <summary>
         /// 获取当前是谁的回合
         /// </summary>
         /// <returns></returns>
         public int GetCurrentActiveRoleIndex()
         {
             return currentActiveRoleIndex;
+        }
+
+        /// <summary>
+        /// 获取牌桌上所有的角色字典
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<int, IRole> GetAllRoles()
+        {
+            return this._rolesPositionDic;
+        }
+
+        /// <summary>
+        /// 获取两个角色的距离，默认不指定sourceRoleIndex则代码距离当前角色的距离
+        /// </summary>
+        /// <param name="targetRoleIndex"></param>
+        /// <param name="sourceRoleIndex"></param>
+        /// <returns></returns>
+        public int GetRoleDistance(int targetRoleIndex, int sourceRoleIndex = -1)
+        {
+            sourceRoleIndex = sourceRoleIndex == -1 ? this.GetCurrentActiveRoleIndex() : sourceRoleIndex;
+            //第一个角色和最后一个角色距离是1，如1、2、3、4，则1和4的距离是1
+            //基础距离
+            int distance = Math.Abs(sourceRoleIndex - targetRoleIndex);
+            distance = distance >= this._rolesPositionDic.Count - 1 ? 1 : distance;
+
+            //马匹距离
+            var sourceRole = this.GetRole(sourceRoleIndex);
+            var targetRole = this.GetRole(targetRoleIndex);
+            distance = distance + targetRole.CurrentDefenceDistance - sourceRole.CurrentAttackDistance;
+            return distance;
         }
 
         /// <summary>

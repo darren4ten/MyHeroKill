@@ -32,6 +32,11 @@ namespace MyHeroKill.Model
         /// </summary>
         public int IndexInCards { get; set; }
 
+        /// <summary>
+        /// 卡牌的攻击范围
+        /// </summary>
+        public int AttackDistance { get; set; }
+
         public MyHeroKill.Model.Enums.ECardGloabalType CardGloabalType { get; set; }
 
         /// <summary>

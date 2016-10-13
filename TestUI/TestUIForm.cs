@@ -2,6 +2,7 @@
 using MyHeroKill.Model;
 using MyHeroKill.Model.Roles;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -87,7 +88,7 @@ namespace TestUI
                     if (handCardManager.CanActiveHandout(curCard))
                     {
                         panelCardOperationButtons.Visible = true;
-                        this.handCardManager.IsSelectingTarget = false;
+                        //this.handCardManager.IsSelectingTarget = false;
                     }
                     else
                     {
@@ -98,13 +99,13 @@ namespace TestUI
                 {
                     //需要选定目标
                     panelCardOperationButtons.Visible = false;
-                    this.handCardManager.IsSelectingTarget = true;
+                    //this.handCardManager.IsSelectingTarget = true;
                 }
             }
             else
             {
                 panelCardOperationButtons.Visible = false;
-                this.handCardManager.IsSelectingTarget = false;
+                // this.handCardManager.IsSelectingTarget = false;
             }
 
         }
@@ -139,11 +140,24 @@ namespace TestUI
                         //如果取消出牌则清空选中目标
                         this.handCardManager.CleanTargets();
                         RefreshSelectedTargetsStatus();
+                        RefreshAttackableTargetStatus();
                     }
                     else
                     {
                         curBtn.Location = new Point(curBtn.Location.X, 2);
                         card.IsSelected = true;
+                        //准备出牌时候检查攻击范围
+                        if (this.handCardManager.GetHandoutCard() != null)
+                        {
+
+                            RefreshAttackableTargetStatus(card.AttackDistance);
+
+                        }
+                        else
+                        {
+                            //选了多张牌，如果是芦叶枪这种辅助攻击则TODO
+                            RefreshAttackableTargetStatus();
+                        }
                     }
 
                     ShowCardOptionsButton();
@@ -189,7 +203,7 @@ namespace TestUI
             if (handCardManager.IsAttack)
             {
                 //主动出牌
-
+                this.handCardManager.AttackHandOut(this.hostManager);
 
             }
             else
@@ -235,12 +249,13 @@ namespace TestUI
         }
 
         #region 刷新界面
+
         /// <summary>
         /// 刷新选中状态
         /// </summary>
         void RefreshSelectedTargetsStatus()
         {
-            if (this.handCardManager.GetTargets().Any(p => p.Name == this.hostManager.GetRole(0).Name))
+            if (this.handCardManager.ContainsRoleInTargets(this.hostManager.GetRole(0)))
             {
                 btnRoleStatusA.BackColor = Color.Red;
             }
@@ -249,7 +264,7 @@ namespace TestUI
                 btnRoleStatusA.BackColor = Color.Gray;
             }
 
-            if (this.handCardManager.GetTargets().Any(p => p.Name == this.hostManager.GetRole(1).Name))
+            if (this.handCardManager.ContainsRoleInTargets(this.hostManager.GetRole(1)))
             {
                 btnRoleStatusB.BackColor = Color.Red;
             }
@@ -258,7 +273,7 @@ namespace TestUI
                 btnRoleStatusB.BackColor = Color.Gray;
             }
 
-            if (this.handCardManager.GetTargets().Any(p => p.Name == this.hostManager.GetRole(2).Name))
+            if (this.handCardManager.ContainsRoleInTargets(this.hostManager.GetRole(2)))
             {
                 btnRoleStatusC.BackColor = Color.Red;
             }
@@ -270,6 +285,43 @@ namespace TestUI
             if (this.handCardManager.GetTargets().Count > 0)
             {
                 panelCardOperationButtons.Visible = true;
+            }
+        }
+
+        /// <summary>
+        /// 刷新可以攻击的范围
+        /// </summary>
+        void RefreshAttackableTargetStatus(int attackDistance = -1)
+        {
+            if (attackDistance == -1)
+            {
+                //复原
+                btnRoleStatusA.FlatAppearance.BorderColor = Color.Gray;
+                btnRoleStatusB.FlatAppearance.BorderColor = Color.Gray;
+                btnRoleStatusC.FlatAppearance.BorderColor = Color.Gray;
+            }
+            else
+            {
+                //查找在攻击范围内的角色
+                if (this.hostManager.GetRoleDistance(0, 2) <= 0)
+                {
+                    btnRoleStatusA.FlatAppearance.BorderColor = Color.Green;
+                }
+                else
+                {
+                    btnRoleStatusA.FlatAppearance.BorderColor = Color.Gray;
+                }
+
+                if (this.hostManager.GetRoleDistance(1, 2) <= 0)
+                {
+                    btnRoleStatusB.FlatAppearance.BorderColor = Color.Green;
+                }
+                else
+                {
+                    btnRoleStatusB.FlatAppearance.BorderColor = Color.Gray;
+                }
+
+               
             }
         }
         #endregion

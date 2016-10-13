@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyHeroKill.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,5 +46,17 @@ namespace MyHeroKill.Model.Wepons
         void OnAskShan();
         void OnAskJuedou();
         void OnAskWuxiekeji();
+
+        void OnBeforeSha(HandCardManager handCardManager);
+        void OnAfterSha(HandCardManager handCardManager, bool isSuccess);
+
+        void OnBeforeShan(HandCardManager handCardManager);
+
+        void OnAfterShan(HandCardManager handCardManager, bool isSuccess);
+
+        void OnAskSha(HandCardManager handCardManager);
+        void OnAskShan(HandCardManager handCardManager);
+        void OnAskJuedou(HandCardManager handCardManager);
+        void OnAskWuxiekeji(HandCardManager handCardManager);
     }
 }
