@@ -16,9 +16,27 @@ namespace MyHeroKill.Managers
         public int StartRoleIndex = 0;
         //洗过的整副牌
         protected Stack<int> currentCardIndexes = new Stack<int>();
-        protected Dictionary<int, IRole> RolesPositionDic = new Dictionary<int, IRole>();
+        protected Dictionary<int, IRole> _rolesPositionDic = new Dictionary<int, IRole>();
         protected CardService cardService = new CardService();
         protected int currentActiveRoleIndex = 0;
+
+        /// <summary>
+        /// 获取指定位置的角色
+        /// </summary>
+        /// <param name="indexOfPosition"></param>
+        /// <returns></returns>
+        public IRole GetRole(int indexOfPosition)
+        {
+            if (this._rolesPositionDic.Keys.Contains(indexOfPosition))
+            {
+                return this._rolesPositionDic[indexOfPosition];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// 获取当前是谁的回合
         /// </summary>
@@ -71,7 +89,7 @@ namespace MyHeroKill.Managers
                 }
 
             }
-            this.RolesPositionDic = dic;
+            this._rolesPositionDic = dic;
 
         }
 

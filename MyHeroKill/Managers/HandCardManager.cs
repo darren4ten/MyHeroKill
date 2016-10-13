@@ -17,8 +17,11 @@ namespace MyHeroKill.Managers
         /// 是否正在选定角色
         /// </summary>
         public bool IsSelectingTarget = false;
+
         //当前用户在所有角色中的位置
         public int CurrentIndex = 0;
+
+        protected List<IRole> _currentTargets = new List<IRole>();
 
         /// <summary>
         /// 获取当前的角色
@@ -53,11 +56,93 @@ namespace MyHeroKill.Managers
         #endregion
 
         /// <summary>
+        /// 清空目标
+        /// </summary>
+        public void CleanTargets()
+        {
+            _currentTargets = new List<IRole>();
+        }
+
+        /// <summary>
+        /// 添加目标（取消）
+        /// </summary>
+        /// <param name="role"></param>
+        /// <param name="maxTargetNum">最大的目标数</param>
+        public void AddTarget(IRole role, int maxTargetNum = 1)
+        {
+
+            //加上攻击目标，如果目标已经选中则将其移除，不存在则添加
+            var currentRole = _currentTargets.FirstOrDefault(p => p.Name == role.Name);
+            if (currentRole == null)
+            {
+                //不存在，则检查是否达到最大攻击目标数
+                //如果达到最大攻击目标数，则不添加
+                if (_currentTargets.Count >= maxTargetNum)
+                {
+                    //去掉最后一个
+                    _currentTargets.Remove(_currentTargets.Last());
+                    _currentTargets.Add(role);
+                }
+                else
+                {
+                    _currentTargets.Add(role);
+
+                }
+            }
+            else
+            {
+                _currentTargets.Remove(currentRole);
+
+            }
+
+        }
+
+        /// <summary>
+        /// 获取当前选中的目标
+        /// </summary>
+        /// <returns></returns>
+        public List<IRole> GetTargets()
+        {
+            return _currentTargets;
+        }
+
+        /// <summary>
+        /// 可以选择的目标数量
+        /// </summary>
+        /// <returns></returns>
+        public int GetCanSelectedTargetCount()
+        {
+            //CASE 1：当前手牌只有一张，且是需要选中目标才能出牌
+            //CASE 2: TODO:当前手牌有多张，将其当做一张来用
+            var selectedCard = this.CurrentRole.CardsInHand.FirstOrDefault(p => p.IsSelected);
+            if (this.CurrentRole.CardsInHand.Count(p => p.IsSelected) == 1 &&
+                          this.IsNeedSelectTargets(selectedCard))
+            {
+                //武器中有狼牙棒，且只剩下最后一张杀，可以指定3个角色
+                if (this.CurrentRole.AdditionalWeapons.Any(p => p.Name == "狼牙棒") &&
+                            selectedCard.CardGloabalType == Enums.ECardGloabalType.Sha &&
+                                this.CurrentRole.CardsInHand.Count == 1)
+                {
+                    return 3;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+
+        }
+
+        /// <summary>
         /// 是否可以主动出牌且需要选定角色
         /// </summary>
         /// <param name="card"></param>
         /// <returns></returns>
-        public bool IsActiveHandoutNeedSelectTargets(Card card)
+        public bool IsNeedSelectTargets(Card card)
         {
             //【需要主动选取对象的牌】
             //[基本牌]
@@ -65,9 +150,9 @@ namespace MyHeroKill.Managers
             //[锦郎牌]
             //探囊取物、釜底抽薪、画地为牢、决斗、借刀杀人（隔岸观火、合纵连横、绝粮莫兴、舍我其谁、偷梁换柱）
             //【不能主动出牌】
-            if (card.CardGloabalType == Enums.ECardGloabalType.Sha || card.CardGloabalType == Enums.ECardGloabalType.Tanlangquwu
+            if (card != null && (card.CardGloabalType == Enums.ECardGloabalType.Sha || card.CardGloabalType == Enums.ECardGloabalType.Tanlangquwu
                 || card.CardGloabalType == Enums.ECardGloabalType.Fudichouxin || card.CardGloabalType == Enums.ECardGloabalType.Huadiweilao
-                || card.CardGloabalType == Enums.ECardGloabalType.Juedou || card.CardGloabalType == Enums.ECardGloabalType.Jiedaosharen
+                || card.CardGloabalType == Enums.ECardGloabalType.Juedou || card.CardGloabalType == Enums.ECardGloabalType.Jiedaosharen)
                 )
             {
                 return true;

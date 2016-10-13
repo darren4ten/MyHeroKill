@@ -56,7 +56,7 @@
             this.btnHandout = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.panelCardOperationButtons = new System.Windows.Forms.Panel();
-            this.btnRoleBStatus = new System.Windows.Forms.Button();
+            this.btnRoleStatusB = new System.Windows.Forms.Button();
             this.btnRoleStatusA = new System.Windows.Forms.Button();
             this.btnRoleStatusC = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
@@ -305,11 +305,11 @@
             // 
             // btnRoleBStatus
             // 
-            this.btnRoleBStatus.Location = new System.Drawing.Point(643, 194);
-            this.btnRoleBStatus.Name = "btnRoleBStatus";
-            this.btnRoleBStatus.Size = new System.Drawing.Size(143, 10);
-            this.btnRoleBStatus.TabIndex = 27;
-            this.btnRoleBStatus.UseVisualStyleBackColor = true;
+            this.btnRoleStatusB.Location = new System.Drawing.Point(643, 194);
+            this.btnRoleStatusB.Name = "btnRoleBStatus";
+            this.btnRoleStatusB.Size = new System.Drawing.Size(143, 10);
+            this.btnRoleStatusB.TabIndex = 27;
+            this.btnRoleStatusB.UseVisualStyleBackColor = true;
             // 
             // btnRoleStatusA
             // 
@@ -334,7 +334,7 @@
             this.ClientSize = new System.Drawing.Size(816, 412);
             this.Controls.Add(this.btnRoleStatusC);
             this.Controls.Add(this.btnRoleStatusA);
-            this.Controls.Add(this.btnRoleBStatus);
+            this.Controls.Add(this.btnRoleStatusB);
             this.Controls.Add(this.panelCardOperationButtons);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panelHandCards);
@@ -401,7 +401,7 @@
         private System.Windows.Forms.Button btnHandout;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Panel panelCardOperationButtons;
-        private System.Windows.Forms.Button btnRoleBStatus;
+        private System.Windows.Forms.Button btnRoleStatusB;
         private System.Windows.Forms.Button btnRoleStatusA;
         private System.Windows.Forms.Button btnRoleStatusC;
     }

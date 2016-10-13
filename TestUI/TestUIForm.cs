@@ -80,7 +80,7 @@ namespace TestUI
             {
                 var curCard = this.handCardManager.CurrentRole.CardsInHand.First(p => p.IsSelected);
                 //获取选定的牌
-                if (!handCardManager.IsActiveHandoutNeedSelectTargets(curCard))
+                if (!handCardManager.IsNeedSelectTargets(curCard))
                 {
                     //这张牌可以主动出才可以出
                     panelCardOperationButtons.Visible = handCardManager.CanActiveHandout(curCard);
@@ -136,7 +136,9 @@ namespace TestUI
                     {
                         curBtn.Location = new Point(curBtn.Location.X, 11);
                         card.IsSelected = false;
-
+                        //如果取消出牌则清空选中目标
+                        this.handCardManager.CleanTargets();
+                        RefreshSelectedTargetsStatus();
                     }
                     else
                     {
@@ -181,6 +183,7 @@ namespace TestUI
             }
         }
 
+
         private void btnHandout_Click(object sender, EventArgs e)
         {
             if (handCardManager.IsAttack)
@@ -198,32 +201,77 @@ namespace TestUI
         //角色选中事件
         private void roleB_Click(object sender, EventArgs e)
         {
-            
+            int maxSelectCount = this.handCardManager.GetCanSelectedTargetCount();
             //如果当前有正要出的牌，则表示选中，否则无动作
-            if (this.handCardManager.IsSelectingTarget)
+            if (maxSelectCount > 0)
             {
-                btnRoleBStatus.BackColor=Color.Red;
-               
+                var curRole = this.hostManager.GetRole(1);
+                //如果当前角色是选中的，则高亮，否则灰掉
+                this.handCardManager.AddTarget(curRole, maxSelectCount);
+                RefreshSelectedTargetsStatus();
             }
             else
             {
-                btnRoleBStatus.BackColor = Color.Gray;
+                //btnRoleStatusA.BackColor = Color.Gray;
             }
 
         }
 
         private void roleA_Click(object sender, EventArgs e)
         {
+            int maxSelectCount = this.handCardManager.GetCanSelectedTargetCount();
             //如果当前有正要出的牌，则表示选中，否则无动作
-            if (this.handCardManager.IsSelectingTarget)
+            if (maxSelectCount > 0)
+            {
+                var curRole = this.hostManager.GetRole(0);
+                //如果当前角色是选中的，则高亮，否则灰掉
+                this.handCardManager.AddTarget(curRole, maxSelectCount);
+                RefreshSelectedTargetsStatus();
+            }
+            else
+            {
+                //btnRoleStatusA.BackColor = Color.Gray;
+            }
+        }
+
+        #region 刷新界面
+        /// <summary>
+        /// 刷新选中状态
+        /// </summary>
+        void RefreshSelectedTargetsStatus()
+        {
+            if (this.handCardManager.GetTargets().Any(p => p.Name == this.hostManager.GetRole(0).Name))
             {
                 btnRoleStatusA.BackColor = Color.Red;
-
             }
             else
             {
                 btnRoleStatusA.BackColor = Color.Gray;
             }
+
+            if (this.handCardManager.GetTargets().Any(p => p.Name == this.hostManager.GetRole(1).Name))
+            {
+                btnRoleStatusB.BackColor = Color.Red;
+            }
+            else
+            {
+                btnRoleStatusB.BackColor = Color.Gray;
+            }
+
+            if (this.handCardManager.GetTargets().Any(p => p.Name == this.hostManager.GetRole(2).Name))
+            {
+                btnRoleStatusC.BackColor = Color.Red;
+            }
+            else
+            {
+                btnRoleStatusC.BackColor = Color.Gray;
+            }
+            //如果有选中的，则显示操作按钮
+            if (this.handCardManager.GetTargets().Count > 0)
+            {
+                panelCardOperationButtons.Visible = true;
+            }
         }
+        #endregion
     }
 }
