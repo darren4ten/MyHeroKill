@@ -102,15 +102,28 @@ namespace MyHeroKill.Managers
         /// <param name="targetUserIndexes">攻击目标的位置索引</param>
         /// <param name="globalType">所出牌的真实类型</param>
         /// <param name="cardsFrom">所出的真实手牌牌（如，两张牌当做杀来用）</param>
-        public void SendRequest(int fromUserIndex, int[] targetUserIndexes, CardModel cardModel)
+        public void SendRequest(int fromUserIndex, int[] targetUserIndexes, AttackCardModel cardModel)
         {
             foreach (int targetUserIndex in targetUserIndexes)
             {
                 Console.WriteLine("{0}对{1}使用了{2},等待用户出{3}", fromUserIndex, targetUserIndex, cardModel.FromCardGloabalType, cardModel.NeedHandoutCards.First().NeedHandoutGloabalTypes);
                 //获取目标用户的HandCardManager
                 var role = this.GetRole(targetUserIndex);
-                role.CurrentHandCardManager.DefenceHandOut(fromUserIndex, cardModel);
+                role.CurrentHandCardManager.DefencerHandOut(fromUserIndex, cardModel);
             }
+        }
+
+        /// <summary>
+        /// 被攻击方出牌给攻击方的请求
+        /// </summary>
+        /// <param name="fromUserIndex"></param>
+        /// <param name="targetUserIndex"></param>
+        /// <param name="cards"></param>
+        public void ReplyRequest(int fromUserIndex, int targetUserIndex,AttackCardModel cardModelAttack, DefenseCardModel cardModelDefense)
+        {
+            //获取目标用户的HandCardManager
+            var role = this.GetRole(targetUserIndex);
+            role.CurrentHandCardManager.AttackHandoutReply(fromUserIndex, cardModelAttack, cardModelDefense);
         }
 
         /// <summary>

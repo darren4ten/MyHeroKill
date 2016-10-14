@@ -26,7 +26,7 @@ namespace MyHeroKill.Model
     /// <summary>
     /// 出牌的牌模型
     /// </summary>
-    public class CardModel
+    public class AttackCardModel
     {
         /// <summary>
         /// 所出的牌的真实类型
@@ -36,7 +36,7 @@ namespace MyHeroKill.Model
         /// <summary>
         /// 需要出的牌的集合，序号越小优先级越高，多个NeedHandoutCards之间是或者的关系
         /// </summary>
-        public CardContainer[] NeedHandoutCards { get; set; }
+        public List<CardContainer> NeedHandoutCards { get; set; }
 
         /// <summary>
         /// 是否不可以抵御杀
@@ -59,5 +59,23 @@ namespace MyHeroKill.Model
         /// </summary>
         public int AddLife { get; set; }
 
+    }
+
+    public class DefenseCardModel
+    {
+        /// <summary>
+        /// 所出的牌的真实类型
+        /// </summary>
+        public MyHeroKill.Model.Enums.ECardGloabalType FromCardGloabalType { get; set; }
+
+        /// <summary>
+        /// 来源牌，原始牌（出牌方所出的牌）
+        /// </summary>
+        public List<Card> FromCards { get; set; }
+
+        /// <summary>
+        /// 是否结束出牌
+        /// </summary>
+        public bool IsHandoutOver { get; set; }
     }
 }

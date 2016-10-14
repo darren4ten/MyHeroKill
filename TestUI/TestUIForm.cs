@@ -62,7 +62,18 @@ namespace TestUI
 
             //刷新其他角色的手牌
             RefreshRolesCards(dicRoles);
+            rroleA.RoleStatus = Enums.ERoleStatus.AI;
+            rroleB.RoleStatus = Enums.ERoleStatus.AI;
+            rroleC.RoleStatus = Enums.ERoleStatus.HumanNormal;
 
+            rroleA.CurrentHandCardManager.CurrentHostManager = this.hostManager;
+            rroleB.CurrentHandCardManager.CurrentHostManager = this.hostManager;
+            rroleC.CurrentHandCardManager.CurrentHostManager = this.hostManager;
+
+            rroleA.CurrentHandCardManager.CurrentIndex = 0;
+            rroleA.CurrentHandCardManager.CurrentRole = rroleA;
+            rroleB.CurrentHandCardManager.CurrentIndex = 1;
+            rroleB.CurrentHandCardManager.CurrentRole = rroleB;
             rroleC.CurrentHandCardManager.CurrentIndex = 2;
             rroleC.CurrentHandCardManager.CurrentRole = rroleC;
         }
@@ -205,7 +216,7 @@ namespace TestUI
             if (cHandCardManager.IsAttack)
             {
                 //主动出牌
-                cHandCardManager.AttackHandOut(this.hostManager);
+                cHandCardManager.AttackHandOut();
 
             }
             else

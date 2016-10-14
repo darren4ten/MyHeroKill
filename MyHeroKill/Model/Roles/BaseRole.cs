@@ -35,6 +35,14 @@ namespace MyHeroKill.Model.Roles
             get;
             set;
         }
+        /// <summary>
+        /// 角色状态，是机器人、人类待机、人类正常、人类掉线
+        /// </summary>
+        public Enums.ERoleStatus RoleStatus
+        {
+            get;
+            set;
+        }
 
         public Enums.ERoleCampType CampType
         {
@@ -132,12 +140,14 @@ namespace MyHeroKill.Model.Roles
             get;
             set;
         }
+
         #endregion
 
         public BaseRole()
         {
             this.IndexOfRoles = 1;
             this.CampType = Enums.ERoleCampType.Any;
+            this.RoleStatus = Enums.ERoleStatus.AI;
             this.Name = "英雄";
             this.SkinId = 0;
             this.BaseDamage = 1;
@@ -352,8 +362,6 @@ namespace MyHeroKill.Model.Roles
 
             return msg;
         }
-
-
 
     }
 }

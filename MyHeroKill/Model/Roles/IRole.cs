@@ -17,6 +17,7 @@ namespace MyHeroKill.Model
         int IndexOfRoles { get; set; }
         string Name { get; set; }
         string ImgUrl { get; set; }
+        MyHeroKill.Model.Enums.ERoleStatus RoleStatus { get; set; }
         MyHeroKill.Model.Enums.ERoleCampType CampType { get; set; }
         List<Card> CardsInHand { get; set; }
         HandCardManager CurrentHandCardManager { get; set; }

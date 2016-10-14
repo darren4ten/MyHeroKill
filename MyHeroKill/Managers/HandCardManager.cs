@@ -19,8 +19,13 @@ namespace MyHeroKill.Managers
         //当前用户在所有角色中的位置
         public int CurrentIndex = 0;
 
+        /// <summary>
+        /// 当前的HostManager
+        /// </summary>
+        public HostManager CurrentHostManager = new HostManager();
+
         //当前的CardModel
-        protected CardModel _currentCardModel { get; set; }
+        protected AttackCardModel _currentCardModel { get; set; }
 
         protected ArrayList _currentTargets = new ArrayList();
         /// <summary>
@@ -224,7 +229,7 @@ namespace MyHeroKill.Managers
         /// 获取出牌模型
         /// </summary>
         /// <returns></returns>
-        public CardModel GetCardModel()
+        public AttackCardModel GetCardModel()
         {
             return this._currentCardModel;
         }
@@ -233,7 +238,7 @@ namespace MyHeroKill.Managers
         /// 更新模型
         /// </summary>
         /// <param name="cardModel"></param>
-        public void SetCardModel(CardModel cardModel)
+        public void SetCardModel(AttackCardModel cardModel)
         {
             this._currentCardModel = cardModel;
         }
@@ -244,41 +249,41 @@ namespace MyHeroKill.Managers
         /// </summary>
         /// <param name="attackCardType"></param>
         /// <returns></returns>
-        protected Enums.ECardGloabalType[] GetNeedHandoutCardType(Enums.ECardGloabalType attackCardType)
+        protected List<Enums.ECardGloabalType> GetNeedHandoutCardType(Enums.ECardGloabalType attackCardType)
         {
-            Enums.ECardGloabalType[] typeArray = new Enums.ECardGloabalType[] { };
+            List<Enums.ECardGloabalType> typeList = new List<Enums.ECardGloabalType>();
             //TODO:枚举的按位与和按位或
             switch (attackCardType)
             {
                 case Enums.ECardGloabalType.Sha:
-                    typeArray[0] = Enums.ECardGloabalType.Shan;
+                    typeList.Add(Enums.ECardGloabalType.Shan);
                     break;
                 case Enums.ECardGloabalType.Wanjianqifa:
-                    typeArray[0] = Enums.ECardGloabalType.Shan;
+                    typeList.Add(Enums.ECardGloabalType.Shan);
                     break;
                 case Enums.ECardGloabalType.Fudichouxin:
-                    typeArray[0] = Enums.ECardGloabalType.Wuxiekeji;
+                    typeList.Add(Enums.ECardGloabalType.Wuxiekeji);
                     break;
                 case Enums.ECardGloabalType.Jiedaosharen:
-                    typeArray[0] = Enums.ECardGloabalType.Sha;
-                    typeArray[1] = Enums.ECardGloabalType.Wuxiekeji;
+                    typeList.Add(Enums.ECardGloabalType.Sha);
+                    typeList.Add(Enums.ECardGloabalType.Wuxiekeji);
                     break;
                 case Enums.ECardGloabalType.Juedou:
-                    typeArray[0] = Enums.ECardGloabalType.Sha;
-                    typeArray[1] = Enums.ECardGloabalType.Wuxiekeji;
+                    typeList.Add(Enums.ECardGloabalType.Sha);
+                    typeList.Add(Enums.ECardGloabalType.Wuxiekeji);
                     break;
                 case Enums.ECardGloabalType.Fenghuolangyan:
-                    typeArray[0] = Enums.ECardGloabalType.Sha;
-                    typeArray[1] = Enums.ECardGloabalType.Wuxiekeji;
+                    typeList.Add(Enums.ECardGloabalType.Sha);
+                    typeList.Add(Enums.ECardGloabalType.Wuxiekeji);
                     break;
                 case Enums.ECardGloabalType.Tanlangquwu:
-                    typeArray[0] = Enums.ECardGloabalType.Wuxiekeji;
+                    typeList.Add(Enums.ECardGloabalType.Wuxiekeji);
                     break;
                 default:
-                    typeArray[0] = Enums.ECardGloabalType.Any;
+                    typeList.Add(Enums.ECardGloabalType.Any);
                     break;
             }
-            return typeArray;
+            return typeList;
         }
 
         /// <summary>
@@ -286,16 +291,16 @@ namespace MyHeroKill.Managers
         /// </summary>
         /// <param name="hostManager"></param>
         /// <returns></returns>
-        public CardModel SetCardModel(HostManager hostManager)
+        public AttackCardModel SetCardModel()
         {
             if (this.GetTargets().Count > 0)
             {
-                Model.CardModel cardModel = new CardModel();
+                Model.AttackCardModel cardModel = new AttackCardModel();
                 cardModel.FromCardGloabalType = this.CurrentRole.CardsInHand.First(p => p.IsSelected).CardGloabalType;
                 cardModel.FromCards = this.CurrentRole.CardsInHand.Where(p => p.IsSelected).ToList();
 
                 cardModel.CanNotDefenseSha = false;
-                cardModel.NeedHandoutCards = new CardContainer[] { };
+                cardModel.NeedHandoutCards = new List<CardContainer>();
 
                 var needCardTypes = this.GetNeedHandoutCardType(cardModel.FromCardGloabalType);
                 foreach (var item in needCardTypes)
@@ -306,7 +311,7 @@ namespace MyHeroKill.Managers
                     cardContainer.NeedHandoutCardCount = 1;
                     //根据真实牌类型来判断需要出什么牌
                     cardContainer.NeedHandoutGloabalTypes = item;
-                    cardModel.NeedHandoutCards[cardModel.NeedHandoutCards.Length - 1] = cardContainer;
+                    cardModel.NeedHandoutCards.Add(cardContainer);
                 }
                 this._currentCardModel = cardModel;
                 return this._currentCardModel;
@@ -318,10 +323,22 @@ namespace MyHeroKill.Managers
             }
         }
 
-        public void AttackHandOut(HostManager hostManager)
+        public void HandoutCard(int attackerUserIndex, AttackCardModel attackCardModel, DefenseCardModel defenseCardModel)
+        {
+            foreach (var card in defenseCardModel.FromCards)
+            {
+                this.CurrentRole.CardsInHand.Remove(card);
+            }
+            this.CurrentHostManager.ReplyRequest(this.CurrentHostManager.GetRoleIndex(this.CurrentRole), attackerUserIndex, attackCardModel, defenseCardModel);
+        }
+
+        /// <summary>
+        /// 主动出牌攻击
+        /// </summary>
+        public void AttackHandOut()
         {
             //根据角色的武器、技能来构造CardModel。如攻击强度、所需要出牌数
-            this.SetCardModel(hostManager);
+            this.SetCardModel();
             var cardModel = this.GetCardModel();
             if (cardModel.FromCardGloabalType == Enums.ECardGloabalType.Sha)
             {
@@ -343,57 +360,79 @@ namespace MyHeroKill.Managers
                 });
             }
 
-            var t = this.GetTargets().ToArray().Select(p => hostManager.GetRoleIndex((IRole)p));
-            hostManager.SendRequest(this.GetCurrentUserIndex(), t.ToArray(), cardModel);
+            var t = this.GetTargets().ToArray().Select(p => this.CurrentHostManager.GetRoleIndex((IRole)p));
+            CurrentHostManager.SendRequest(this.GetCurrentUserIndex(), t.ToArray(), cardModel);
         }
 
-        ///// <summary>
-        ///// 主动出牌
-        ///// </summary>
-        ///// <param name="targetUserIndexes">攻击目标</param>
-        ///// <param name="cards">所出的手牌</param>
-        ///// <param name="realCardType">要将手牌当做的牌</param>
-        //public void AttackHandOut(int[] targetUserIndexes, List<Card> cards, MyHeroKill.Model.Enums.ECardGloabalType realCardType)
-        //{
-        //    var hostManager = new HostManager();
-        //    //根据角色的武器、技能来构造CardModel。如攻击强度、所需要出牌数
-        //    //TODO
-        //    Model.CardModel cardModel = new CardModel();
-        //    cardModel.FromCardGloabalType = realCardType;
-        //    cardModel.FromCards = cards;
-        //    cardModel.NeedHandoutCardColorAndSign = Enums.ECardColorAndSignType.Any;
-        //    //根据角色技能、装备决定伤害值
-        //    cardModel.NeedHandoutCardCount = 1;
-        //    //根据真实牌类型来判断需要出什么牌
-        //    cardModel.NeedHandoutGloabalTypes = Enums.ECardGloabalType.Shan;
+        /// <summary>
+        /// 攻击对方之后，对方出的牌
+        /// </summary>
+        /// <param name="fromUserIndex"></param>
+        /// <param name="attackCardModel"></param>
+        /// <param name="defenseCardModel"></param>
+        public void AttackHandoutReply(int fromUserIndex, AttackCardModel attackCardModel, DefenseCardModel defenseCardModel)
+        {
 
-        //    hostManager.SendRequest(this.GetCurrentUserIndex(), targetUserIndexes, cardModel);
-        //}
+        }
+
 
         /// <summary>
         /// 被动出牌。收到外部消息，比如被杀，被釜底抽薪
         /// </summary>
-        /// <param name="fromUserIndex"></param>
+        /// <param name="attackerUserIndex"></param>
         /// <param name="cardsFrom"></param>
         /// <param name="needToHandOut">需要出的牌的种类</param>
-        public void DefenceHandOut(int fromUserIndex, Model.CardModel cardModel)
+        public void DefencerHandOut(int attackerUserIndex, Model.AttackCardModel cardModel)
         {
             if (cardModel != null)
             {
                 foreach (var needCard in cardModel.NeedHandoutCards)
                 {
                     //程序判断当前用户是否可以抵御（有对应的牌），如果没有则直接返回结果
+                    //如果既有杀，又有决斗，先响应无懈可击再响应杀，但是如果出了决斗就不能再出杀
+
 
                     //判断是否有抵御的牌
                     //1. 检查是否有对应的手牌；
                     //2. 检查是否有技能可以提供并满足技能要求
-                    foreach (var curCard in this.CurrentRole.CardsInHand)
+                    if (this.CurrentRole.CardsInHand.Any(p => p.CardGloabalType == needCard.NeedHandoutGloabalTypes))
                     {
-                        if (curCard.CardGloabalType == needCard.NeedHandoutGloabalTypes)
+                        //有可以出的手牌，弹出第一张可以出的牌
+                        //如果是AI，则直接出牌,TODO:机器人不出无邪；
+                        //如果是人类，等待选择牌
+                        if (this.CurrentRole.RoleStatus == Enums.ERoleStatus.AI)
                         {
-                            //有满足条件的牌，弹出这张牌
+                            //AI先出无懈可击
+                            var cards = this.CurrentRole.CardsInHand.Where(p => p.CardGloabalType == needCard.NeedHandoutGloabalTypes).ToList();
+                            if (cards.Count > 0)
+                            {
+                                DefenseCardModel dModel = new DefenseCardModel();
+                                dModel.FromCards = new List<Card>();
+                                //出掉手中最多的需要的牌
+                                for (int i = 0; i < Math.Min(needCard.NeedHandoutCardCount, cards.Count); i++)
+                                {
+                                    dModel.FromCards.Add(cards[i]);
+                                }
+                                dModel.IsHandoutOver = true;
+                                this.HandoutCard(attackerUserIndex, cardModel, dModel);
+                                break;
+                            }
+                            else
+                            {
+                                continue;
+                            }
                         }
+                        else
+                        {
+                            //是人的话等待人出牌
+                        }
+
                     }
+                    else
+                    {
+                        //没有手牌可出，判断是否有技能或者装备可以提供
+                    }
+
                 }
             }
             else
@@ -402,8 +441,7 @@ namespace MyHeroKill.Managers
             }
         }
 
-
-        private void DoHandOutShan(int fromUserIndex, CardModel cardModel)
+        private void DoHandOutShan(int fromUserIndex, AttackCardModel cardModel)
         {
             // 检查是否有闪
             var cards = this.GetUserCards();

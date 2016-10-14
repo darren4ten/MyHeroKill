@@ -100,5 +100,31 @@ namespace MyHeroKill.Model
             /// </summary>
             Chen
         }
+
+        /// <summary>
+        /// 角色的状态
+        /// </summary>
+        public enum ERoleStatus
+        {
+            /// <summary>
+            /// 机器人
+            /// </summary>
+            AI,
+
+            /// <summary>
+            /// 人类普通状态
+            /// </summary>
+            HumanNormal,
+
+            /// <summary>
+            /// 人类挂机状态
+            /// </summary>
+            HumanStandBy,
+
+            /// <summary>
+            /// 人类掉线
+            /// </summary>
+            HumanOffline
+        }
     }
 }
