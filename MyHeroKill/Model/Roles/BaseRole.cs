@@ -123,6 +123,15 @@ namespace MyHeroKill.Model.Roles
             get;
             set;
         }
+
+        /// <summary>
+        /// 当前的HandCardManager
+        /// </summary>
+        public Managers.HandCardManager CurrentHandCardManager
+        {
+            get;
+            set;
+        }
         #endregion
 
         public BaseRole()
@@ -146,6 +155,7 @@ namespace MyHeroKill.Model.Roles
             this.CurrentDefenceDistance = this.BaseDefenseDistance;
             this.CurrentAttackDistance = this.BaseAttackDistance;
             this.CurrentAttackCount = this.BaseAttackCount;
+            this.CurrentHandCardManager = new Managers.HandCardManager();
             this.SumRoleProperties();
         }
 
@@ -342,6 +352,8 @@ namespace MyHeroKill.Model.Roles
 
             return msg;
         }
+
+
 
     }
 }

@@ -244,35 +244,41 @@ namespace MyHeroKill.Managers
         /// </summary>
         /// <param name="attackCardType"></param>
         /// <returns></returns>
-        protected Enums.ECardGloabalType GetNeedHandoutCardType(Enums.ECardGloabalType attackCardType)
+        protected Enums.ECardGloabalType[] GetNeedHandoutCardType(Enums.ECardGloabalType attackCardType)
         {
+            Enums.ECardGloabalType[] typeArray = new Enums.ECardGloabalType[] { };
             //TODO:枚举的按位与和按位或
             switch (attackCardType)
             {
                 case Enums.ECardGloabalType.Sha:
-                    return Enums.ECardGloabalType.Shan;
-
+                    typeArray[0] = Enums.ECardGloabalType.Shan;
+                    break;
                 case Enums.ECardGloabalType.Wanjianqifa:
-                    return Enums.ECardGloabalType.Shan;
-
+                    typeArray[0] = Enums.ECardGloabalType.Shan;
+                    break;
                 case Enums.ECardGloabalType.Fudichouxin:
-                    return Enums.ECardGloabalType.Wuxiekeji;
-
+                    typeArray[0] = Enums.ECardGloabalType.Wuxiekeji;
+                    break;
                 case Enums.ECardGloabalType.Jiedaosharen:
-                    return Enums.ECardGloabalType.Sha | Enums.ECardGloabalType.Wuxiekeji;
-
+                    typeArray[0] = Enums.ECardGloabalType.Sha;
+                    typeArray[1] = Enums.ECardGloabalType.Wuxiekeji;
+                    break;
                 case Enums.ECardGloabalType.Juedou:
-                    return Enums.ECardGloabalType.Sha | Enums.ECardGloabalType.Wuxiekeji;
-
+                    typeArray[0] = Enums.ECardGloabalType.Sha;
+                    typeArray[1] = Enums.ECardGloabalType.Wuxiekeji;
+                    break;
                 case Enums.ECardGloabalType.Fenghuolangyan:
-                    return Enums.ECardGloabalType.Sha | Enums.ECardGloabalType.Wuxiekeji;
-
+                    typeArray[0] = Enums.ECardGloabalType.Sha;
+                    typeArray[1] = Enums.ECardGloabalType.Wuxiekeji;
+                    break;
                 case Enums.ECardGloabalType.Tanlangquwu:
-                    return Enums.ECardGloabalType.Wuxiekeji;
-
+                    typeArray[0] = Enums.ECardGloabalType.Wuxiekeji;
+                    break;
                 default:
-                    return Enums.ECardGloabalType.Any;
+                    typeArray[0] = Enums.ECardGloabalType.Any;
+                    break;
             }
+            return typeArray;
         }
 
         /// <summary>
@@ -289,15 +295,21 @@ namespace MyHeroKill.Managers
                 cardModel.FromCards = this.CurrentRole.CardsInHand.Where(p => p.IsSelected).ToList();
 
                 cardModel.CanNotDefenseSha = false;
-                cardModel.NeedHandoutCardColorAndSign = Enums.ECardColorAndSignType.Any;
-                //根据角色技能、装备决定伤害值
-                cardModel.NeedHandoutCardCount = 1;
-                //根据真实牌类型来判断需要出什么牌
-                cardModel.NeedHandoutGloabalType = this.GetNeedHandoutCardType(cardModel.FromCardGloabalType);
+                cardModel.NeedHandoutCards = new CardContainer[] { };
 
-                var t = this.GetTargets().ToArray().Select(p => hostManager.GetRoleIndex((IRole)p));
-                hostManager.SendRequest(this.GetCurrentUserIndex(), t.ToArray(), cardModel);
-                return cardModel;
+                var needCardTypes = this.GetNeedHandoutCardType(cardModel.FromCardGloabalType);
+                foreach (var item in needCardTypes)
+                {
+                    var cardContainer = new CardContainer();
+                    cardContainer.NeedHandoutCardColorAndSign = Enums.ECardColorAndSignType.Any;
+                    //根据角色技能、装备决定伤害值
+                    cardContainer.NeedHandoutCardCount = 1;
+                    //根据真实牌类型来判断需要出什么牌
+                    cardContainer.NeedHandoutGloabalTypes = item;
+                    cardModel.NeedHandoutCards[cardModel.NeedHandoutCards.Length - 1] = cardContainer;
+                }
+                this._currentCardModel = cardModel;
+                return this._currentCardModel;
             }
             else
             {
@@ -330,30 +342,33 @@ namespace MyHeroKill.Managers
                     p.OnBeforeSha(this);
                 });
             }
+
+            var t = this.GetTargets().ToArray().Select(p => hostManager.GetRoleIndex((IRole)p));
+            hostManager.SendRequest(this.GetCurrentUserIndex(), t.ToArray(), cardModel);
         }
 
-        /// <summary>
-        /// 主动出牌
-        /// </summary>
-        /// <param name="targetUserIndexes">攻击目标</param>
-        /// <param name="cards">所出的手牌</param>
-        /// <param name="realCardType">要将手牌当做的牌</param>
-        public void AttackHandOut(int[] targetUserIndexes, List<Card> cards, MyHeroKill.Model.Enums.ECardGloabalType realCardType)
-        {
-            var hostManager = new HostManager();
-            //根据角色的武器、技能来构造CardModel。如攻击强度、所需要出牌数
-            //TODO
-            Model.CardModel cardModel = new CardModel();
-            cardModel.FromCardGloabalType = realCardType;
-            cardModel.FromCards = cards;
-            cardModel.NeedHandoutCardColorAndSign = Enums.ECardColorAndSignType.Any;
-            //根据角色技能、装备决定伤害值
-            cardModel.NeedHandoutCardCount = 1;
-            //根据真实牌类型来判断需要出什么牌
-            cardModel.NeedHandoutGloabalType = Enums.ECardGloabalType.Shan;
+        ///// <summary>
+        ///// 主动出牌
+        ///// </summary>
+        ///// <param name="targetUserIndexes">攻击目标</param>
+        ///// <param name="cards">所出的手牌</param>
+        ///// <param name="realCardType">要将手牌当做的牌</param>
+        //public void AttackHandOut(int[] targetUserIndexes, List<Card> cards, MyHeroKill.Model.Enums.ECardGloabalType realCardType)
+        //{
+        //    var hostManager = new HostManager();
+        //    //根据角色的武器、技能来构造CardModel。如攻击强度、所需要出牌数
+        //    //TODO
+        //    Model.CardModel cardModel = new CardModel();
+        //    cardModel.FromCardGloabalType = realCardType;
+        //    cardModel.FromCards = cards;
+        //    cardModel.NeedHandoutCardColorAndSign = Enums.ECardColorAndSignType.Any;
+        //    //根据角色技能、装备决定伤害值
+        //    cardModel.NeedHandoutCardCount = 1;
+        //    //根据真实牌类型来判断需要出什么牌
+        //    cardModel.NeedHandoutGloabalTypes = Enums.ECardGloabalType.Shan;
 
-            hostManager.SendRequest(this.GetCurrentUserIndex(), targetUserIndexes, cardModel);
-        }
+        //    hostManager.SendRequest(this.GetCurrentUserIndex(), targetUserIndexes, cardModel);
+        //}
 
         /// <summary>
         /// 被动出牌。收到外部消息，比如被杀，被釜底抽薪
@@ -363,64 +378,27 @@ namespace MyHeroKill.Managers
         /// <param name="needToHandOut">需要出的牌的种类</param>
         public void DefenceHandOut(int fromUserIndex, Model.CardModel cardModel)
         {
-            //让用户出牌
-            switch (cardModel.NeedHandoutGloabalType)
+            if (cardModel != null)
             {
-                case MyHeroKill.Model.Enums.ECardGloabalType.Sha:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Shan:
+                foreach (var needCard in cardModel.NeedHandoutCards)
+                {
+                    //程序判断当前用户是否可以抵御（有对应的牌），如果没有则直接返回结果
+
+                    //判断是否有抵御的牌
+                    //1. 检查是否有对应的手牌；
+                    //2. 检查是否有技能可以提供并满足技能要求
+                    foreach (var curCard in this.CurrentRole.CardsInHand)
                     {
-                        DoHandOutShan(fromUserIndex, cardModel);
-                    };
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Yao:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Wanjianqifa:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Xiuyangshengxi:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Wugufengdeng:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Huadiweilao:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Shoupenglei:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Fudichouxin:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Jiedaosharen:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Juedou:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Fenghuolangyan:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Wuxiekeji:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Wuzhongshengyou:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Tanlangquwu:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Jingongma:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Fangyuma:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Yuruyi:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Yuchangjian:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Langyabang:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Luyeqiang:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Longlingdao:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Bawanggong:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Hufu:
-                    break;
-                case MyHeroKill.Model.Enums.ECardGloabalType.Bolangchui:
-                    break;
-                default:
-                    break;
+                        if (curCard.CardGloabalType == needCard.NeedHandoutGloabalTypes)
+                        {
+                            //有满足条件的牌，弹出这张牌
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("异常：没牌让我出啥");
             }
         }
 

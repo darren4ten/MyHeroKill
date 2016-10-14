@@ -1,4 +1,5 @@
-﻿using MyHeroKill.Model.Skills;
+﻿using MyHeroKill.Managers;
+using MyHeroKill.Model.Skills;
 using MyHeroKill.Model.Wepons;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,11 @@ namespace MyHeroKill.Model
         string ImgUrl { get; set; }
         MyHeroKill.Model.Enums.ERoleCampType CampType { get; set; }
         List<Card> CardsInHand { get; set; }
+        HandCardManager CurrentHandCardManager { get; set; }
         /// <summary>
         /// 皮肤ID
         /// </summary>
         int SkinId { get; set; }
-
         int BaseDamage { get; set; }
         int BaseLife { get; set; }
         int BaseAttackDistance { get; set; }

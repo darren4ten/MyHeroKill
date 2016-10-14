@@ -28,7 +28,8 @@ namespace MyHeroKill.Model.Skills
         {
             //在杀之前，被攻击方需要出两张闪
             var cardModel = handCardManager.GetCardModel();
-            cardModel.NeedHandoutCardCount += 1;
+            var needShan = cardModel.NeedHandoutCards.FirstOrDefault(p => p.NeedHandoutGloabalTypes == Enums.ECardGloabalType.Shan);
+            needShan.NeedHandoutCardCount = 2;
             handCardManager.SetCardModel(cardModel);
         }
 

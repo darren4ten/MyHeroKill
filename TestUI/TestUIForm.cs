@@ -17,7 +17,6 @@ namespace TestUI
     public partial class TestUIForm : Form
     {
         private HostManager hostManager = new HostManager();
-        private HandCardManager handCardManager = new HandCardManager();
         public TestUIForm()
         {
             InitializeComponent();
@@ -64,8 +63,8 @@ namespace TestUI
             //刷新其他角色的手牌
             RefreshRolesCards(dicRoles);
 
-            this.handCardManager.CurrentIndex = 2;
-            this.handCardManager.CurrentRole = rroleC;
+            rroleC.CurrentHandCardManager.CurrentIndex = 2;
+            rroleC.CurrentHandCardManager.CurrentRole = rroleC;
         }
 
         private void RefreshRolesCards(Dictionary<int, IRole> dicRoles)
@@ -77,15 +76,16 @@ namespace TestUI
 
         private void ShowCardOptionsButton()
         {
-            if (this.handCardManager.CurrentRole.CardsInHand.Count(p => p.IsSelected) == 1)
+            var cHandCardManager = this.hostManager.GetRole(2).CurrentHandCardManager;
+            if (cHandCardManager.CurrentRole.CardsInHand.Count(p => p.IsSelected) == 1)
             {
-                var curCard = this.handCardManager.CurrentRole.CardsInHand.First(p => p.IsSelected);
+                var curCard = cHandCardManager.CurrentRole.CardsInHand.First(p => p.IsSelected);
                 //获取选定的牌
-                if (!handCardManager.IsNeedSelectTargets(curCard))
+                if (!cHandCardManager.IsNeedSelectTargets(curCard))
                 {
                     //这张牌可以主动出才可以出
-                    panelCardOperationButtons.Visible = handCardManager.CanActiveHandout(curCard);
-                    if (handCardManager.CanActiveHandout(curCard))
+                    panelCardOperationButtons.Visible = cHandCardManager.CanActiveHandout(curCard);
+                    if (cHandCardManager.CanActiveHandout(curCard))
                     {
                         panelCardOperationButtons.Visible = true;
                         //this.handCardManager.IsSelectingTarget = false;
@@ -112,6 +112,7 @@ namespace TestUI
 
         private void ShowCards(IRole role)
         {
+            var cHandCardManager = this.hostManager.GetRole(2).CurrentHandCardManager;
             int initX = 3;
             foreach (var card in role.CardsInHand)
             {
@@ -138,7 +139,7 @@ namespace TestUI
                         curBtn.Location = new Point(curBtn.Location.X, 11);
                         card.IsSelected = false;
                         //如果取消出牌则清空选中目标
-                        this.handCardManager.CleanTargets();
+                        cHandCardManager.CleanTargets();
                         RefreshSelectedTargetsStatus();
                         RefreshAttackableTargetStatus();
                     }
@@ -147,7 +148,7 @@ namespace TestUI
                         curBtn.Location = new Point(curBtn.Location.X, 2);
                         card.IsSelected = true;
                         //准备出牌时候检查攻击范围
-                        if (this.handCardManager.GetHandoutCard() != null)
+                        if (cHandCardManager.GetHandoutCard() != null)
                         {
 
                             RefreshAttackableTargetStatus(card.AttackDistance);
@@ -200,10 +201,11 @@ namespace TestUI
 
         private void btnHandout_Click(object sender, EventArgs e)
         {
-            if (handCardManager.IsAttack)
+            var cHandCardManager = this.hostManager.GetRole(2).CurrentHandCardManager;
+            if (cHandCardManager.IsAttack)
             {
                 //主动出牌
-                this.handCardManager.AttackHandOut(this.hostManager);
+                cHandCardManager.AttackHandOut(this.hostManager);
 
             }
             else
@@ -215,13 +217,14 @@ namespace TestUI
         //角色选中事件
         private void roleB_Click(object sender, EventArgs e)
         {
-            int maxSelectCount = this.handCardManager.GetCanSelectedTargetCount();
+            var cHandCardManager = this.hostManager.GetRole(2).CurrentHandCardManager;
+            int maxSelectCount = cHandCardManager.GetCanSelectedTargetCount();
             //如果当前有正要出的牌，则表示选中，否则无动作
             if (maxSelectCount > 0)
             {
                 var curRole = this.hostManager.GetRole(1);
                 //如果当前角色是选中的，则高亮，否则灰掉
-                this.handCardManager.AddTarget(curRole, maxSelectCount);
+                cHandCardManager.AddTarget(curRole, maxSelectCount);
                 RefreshSelectedTargetsStatus();
             }
             else
@@ -233,13 +236,14 @@ namespace TestUI
 
         private void roleA_Click(object sender, EventArgs e)
         {
-            int maxSelectCount = this.handCardManager.GetCanSelectedTargetCount();
+            var cHandCardManager = this.hostManager.GetRole(2).CurrentHandCardManager;
+            int maxSelectCount = cHandCardManager.GetCanSelectedTargetCount();
             //如果当前有正要出的牌，则表示选中，否则无动作
             if (maxSelectCount > 0)
             {
                 var curRole = this.hostManager.GetRole(0);
                 //如果当前角色是选中的，则高亮，否则灰掉
-                this.handCardManager.AddTarget(curRole, maxSelectCount);
+                cHandCardManager.AddTarget(curRole, maxSelectCount);
                 RefreshSelectedTargetsStatus();
             }
             else
@@ -255,7 +259,8 @@ namespace TestUI
         /// </summary>
         void RefreshSelectedTargetsStatus()
         {
-            if (this.handCardManager.ContainsRoleInTargets(this.hostManager.GetRole(0)))
+            var cHandCardManager = this.hostManager.GetRole(2).CurrentHandCardManager;
+            if (cHandCardManager.ContainsRoleInTargets(this.hostManager.GetRole(0)))
             {
                 btnRoleStatusA.BackColor = Color.Red;
             }
@@ -264,7 +269,7 @@ namespace TestUI
                 btnRoleStatusA.BackColor = Color.Gray;
             }
 
-            if (this.handCardManager.ContainsRoleInTargets(this.hostManager.GetRole(1)))
+            if (cHandCardManager.ContainsRoleInTargets(this.hostManager.GetRole(1)))
             {
                 btnRoleStatusB.BackColor = Color.Red;
             }
@@ -273,7 +278,7 @@ namespace TestUI
                 btnRoleStatusB.BackColor = Color.Gray;
             }
 
-            if (this.handCardManager.ContainsRoleInTargets(this.hostManager.GetRole(2)))
+            if (cHandCardManager.ContainsRoleInTargets(this.hostManager.GetRole(2)))
             {
                 btnRoleStatusC.BackColor = Color.Red;
             }
@@ -282,7 +287,7 @@ namespace TestUI
                 btnRoleStatusC.BackColor = Color.Gray;
             }
             //如果有选中的，则显示操作按钮
-            if (this.handCardManager.GetTargets().Count > 0)
+            if (cHandCardManager.GetTargets().Count > 0)
             {
                 panelCardOperationButtons.Visible = true;
             }
@@ -321,7 +326,7 @@ namespace TestUI
                     btnRoleStatusB.FlatAppearance.BorderColor = Color.Gray;
                 }
 
-               
+
             }
         }
         #endregion
