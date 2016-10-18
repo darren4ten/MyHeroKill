@@ -106,7 +106,7 @@ namespace MyHeroKill.Managers
         {
             foreach (int targetUserIndex in targetUserIndexes)
             {
-                Console.WriteLine("{0}对{1}使用了{2},等待用户出{3}", fromUserIndex, targetUserIndex, cardModel.FromCardGloabalType, cardModel.NeedHandoutCards.First().NeedHandoutGloabalTypes);
+                Console.WriteLine("{0}对{1}使用了{2},等待用户出{3}", fromUserIndex, targetUserIndex, cardModel.FromCardGloabalType, cardModel.NeedHandoutCards.First().NeedHandoutGloabalType);
                 //获取目标用户的HandCardManager
                 var role = this.GetRole(targetUserIndex);
                 role.CurrentHandCardManager.DefencerHandOut(fromUserIndex, cardModel);

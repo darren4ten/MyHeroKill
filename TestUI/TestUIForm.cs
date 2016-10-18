@@ -35,17 +35,17 @@ namespace TestUI
             var rroleB = new SongjiangRole();
             var rroleC = new YangyanzhaoRole();
 
-            roleA.Text = rroleA.Name;
-            lblLifeA.Text = rroleA.CurrentLife.ToString();
-            lblCardNumA.Text = "0";
+            //roleA.Text = rroleA.Name;
+            //lblLifeA.Text = rroleA.CurrentLife.ToString();
+            //lblCardNumA.Text = "0";
 
-            roleB.Text = rroleB.Name;
-            lblLifeB.Text = rroleB.CurrentLife.ToString();
-            lblCardNumB.Text = "0";
+            //roleB.Text = rroleB.Name;
+            //lblLifeB.Text = rroleB.CurrentLife.ToString();
+            //lblCardNumB.Text = "0";
 
-            roleC.Text = rroleC.Name;
-            lblLifeC.Text = rroleC.CurrentLife.ToString();
-            lblCardNumC.Text = "0";
+            //roleC.Text = rroleC.Name;
+            //lblLifeC.Text = rroleC.CurrentLife.ToString();
+            //lblCardNumC.Text = "0";
 
             //通知hostmanager
             Dictionary<int, IRole> dicRoles = new Dictionary<int, IRole>();
@@ -61,7 +61,8 @@ namespace TestUI
             ShowCards(dicRoles[2]);
 
             //刷新其他角色的手牌
-            RefreshRolesCards(dicRoles);
+            //RefreshRolesCards(dicRoles);
+            RefreshRoles(dicRoles);
             rroleA.RoleStatus = Enums.ERoleStatus.AI;
             rroleB.RoleStatus = Enums.ERoleStatus.AI;
             rroleC.RoleStatus = Enums.ERoleStatus.HumanNormal;
@@ -78,11 +79,26 @@ namespace TestUI
             rroleC.CurrentHandCardManager.CurrentRole = rroleC;
         }
 
-        private void RefreshRolesCards(Dictionary<int, IRole> dicRoles)
+        //private void RefreshRolesCards(Dictionary<int, IRole> dicRoles)
+        //{
+        //    lblCardNumA.Text = dicRoles[0].CardsInHand.Count.ToString();
+        //    lblCardNumB.Text = dicRoles[1].CardsInHand.Count.ToString();
+        //    lblCardNumC.Text = dicRoles[2].CardsInHand.Count.ToString();
+        //}
+
+        private void RefreshRoles(Dictionary<int, IRole> dicRoles)
         {
             lblCardNumA.Text = dicRoles[0].CardsInHand.Count.ToString();
             lblCardNumB.Text = dicRoles[1].CardsInHand.Count.ToString();
             lblCardNumC.Text = dicRoles[2].CardsInHand.Count.ToString();
+            roleA.Text = dicRoles[1].Name;
+            lblLifeA.Text = dicRoles[0].CurrentLife.ToString();
+
+            roleB.Text = dicRoles[1].Name;
+            lblLifeB.Text = dicRoles[1].CurrentLife.ToString();
+
+            roleC.Text = dicRoles[2].Name;
+            lblLifeC.Text = dicRoles[2].CurrentLife.ToString();
         }
 
         private void ShowCardOptionsButton()
@@ -125,6 +141,7 @@ namespace TestUI
         {
             var cHandCardManager = this.hostManager.GetRole(2).CurrentHandCardManager;
             int initX = 3;
+            panelHandCards.Controls.Clear();
             foreach (var card in role.CardsInHand)
             {
                 var newBtnCard = new Button();
@@ -223,6 +240,13 @@ namespace TestUI
             {
                 //被动出牌
             }
+
+            //更新所有的手牌
+            ShowCards(this.hostManager.GetRole(2));
+            //更新所有的血量
+            //RefreshRolesCards(this.hostManager.GetAllRoles());
+            RefreshRoles(this.hostManager.GetAllRoles());
+
         }
 
         //角色选中事件
@@ -264,6 +288,10 @@ namespace TestUI
         }
 
         #region 刷新界面
+        void RefreshRoles()
+        {
+
+        }
 
         /// <summary>
         /// 刷新选中状态

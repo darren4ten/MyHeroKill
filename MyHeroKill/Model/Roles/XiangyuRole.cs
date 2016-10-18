@@ -21,7 +21,7 @@ namespace MyHeroKill.Model.Roles
             this.BaseAttackCount = 1;
             this.BaseSkills = new List<Skills.ISkill>();
             //默认霸王技能
-            BawangSkill skill = new BawangSkill();
+            SanbanfuSkill skill = new SanbanfuSkill();
             this.BaseSkills.Add(skill);
 
             this.AdditionalSkills = new List<Skills.ISkill>();

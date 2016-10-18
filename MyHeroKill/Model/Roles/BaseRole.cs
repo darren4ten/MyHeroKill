@@ -1,4 +1,5 @@
-﻿using MyHeroKill.Model.Wepons;
+﻿using MyHeroKill.Managers;
+using MyHeroKill.Model.Wepons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -162,6 +163,7 @@ namespace MyHeroKill.Model.Roles
             this.AdditionalWeapons = new List<Wepons.IWeapon>();
             this.CurrentDamage = this.BaseDamage;
             this.CurrentLife = this.BaseLife;
+            this.MaxLife = this.CurrentLife;
             this.CurrentDefenceDistance = this.BaseDefenseDistance;
             this.CurrentAttackDistance = this.BaseAttackDistance;
             this.CurrentAttackCount = this.BaseAttackCount;
@@ -195,12 +197,38 @@ namespace MyHeroKill.Model.Roles
         {
         }
 
+        public virtual bool OnReplySha(Managers.HandCardManager handCardManager, DefenseCardModel defenseCardContainer)
+        {
+
+            return true;
+        }
+
+        /// <summary>
+        /// 血量变化事件
+        /// </summary>
+        /// <param name="deltaLife"></param>
+        /// <param name="handCardManager"></param>
+        public virtual void OnLifeChange(int deltaLife, Managers.HandCardManager handCardManager)
+        {
+            this.CurrentLife += deltaLife;
+            this.CurrentLife = this.CurrentLife > this.MaxLife ? this.MaxLife : this.CurrentLife;
+            //血量小于1则求药
+            if (this.CurrentLife < 1)
+            {
+                this.TriggerOnRoleAskYaoEvents();
+            }
+        }
+
         public delegate void RoleEvents();
         public event RoleEvents OnRoleAskShaEvents;
         public event RoleEvents OnRoleAskShanEvents;
         public event RoleEvents OnRoleAskWuxiekejiEvents;
         public event RoleEvents OnRoleAskYaoEvents;
         public event RoleEvents OnRoleAskJuedouEvents;
+
+        public delegate bool RoleEventsDefense(HandCardManager handCardManager, DefenseCardModel defenseModel);
+        public event RoleEventsDefense OnReplyShaEvents;
+
         public virtual void TriggerOnRoleAskShaEvents()
         {
             this.OnRoleAskShaEvents();
@@ -221,7 +249,10 @@ namespace MyHeroKill.Model.Roles
         {
             this.OnRoleAskJuedouEvents();
         }
-
+        public virtual void TriggerOnReplyShaEvents(DefenseCardModel defense)
+        {
+            this.OnReplyShaEvents(this.CurrentHandCardManager, defense);
+        }
 
         /// <summary>
         /// 计算角色的综合属性
@@ -244,6 +275,7 @@ namespace MyHeroKill.Model.Roles
                 this.OnRoleAskShanEvents += item.OnAskShan;
                 this.OnRoleAskWuxiekejiEvents += item.OnAskWuxiekeji;
                 this.OnRoleAskYaoEvents += item.OnAskYao;
+                //this.OnReplyShaEvents += item.OnReplySha;
 
             }
             foreach (var item in this.AdditionalSkills)
@@ -259,6 +291,7 @@ namespace MyHeroKill.Model.Roles
                 this.OnRoleAskShanEvents += item.OnAskShan;
                 this.OnRoleAskWuxiekejiEvents += item.OnAskWuxiekeji;
                 this.OnRoleAskYaoEvents += item.OnAskYao;
+                //this.OnReplyShaEvents += item.OnReplySha;
             }
             foreach (var item in this.BaseWeapons)
             {
@@ -273,6 +306,7 @@ namespace MyHeroKill.Model.Roles
                 this.OnRoleAskShaEvents += item.OnAskSha;
                 this.OnRoleAskShanEvents += item.OnAskShan;
                 this.OnRoleAskWuxiekejiEvents += item.OnAskWuxiekeji;
+                //this.OnReplyShaEvents += item.OnReplySha;
             }
             foreach (var item in this.AdditionalWeapons)
             {
@@ -287,6 +321,7 @@ namespace MyHeroKill.Model.Roles
                 this.OnRoleAskShaEvents += item.OnAskSha;
                 this.OnRoleAskShanEvents += item.OnAskShan;
                 this.OnRoleAskWuxiekejiEvents += item.OnAskWuxiekeji;
+                // this.OnReplyShaEvents += item.OnReplySha;
             }
             this.CurrentAttackDistance = Math.Max(this.BaseAttackDistance, maxDistance);
 
@@ -311,6 +346,7 @@ namespace MyHeroKill.Model.Roles
             this.OnRoleAskShaEvents += wp.OnAskSha;
             this.OnRoleAskShanEvents += wp.OnAskShan;
             this.OnRoleAskWuxiekejiEvents += wp.OnAskWuxiekeji;
+            //this.OnReplyShaEvents += wp.OnReplySha;
         }
 
         public virtual void EquipWeapon(IWeapon wp)
@@ -345,6 +381,7 @@ namespace MyHeroKill.Model.Roles
             this.OnRoleAskShaEvents -= wp.OnAskSha;
             this.OnRoleAskShanEvents -= wp.OnAskShan;
             this.OnRoleAskWuxiekejiEvents -= wp.OnAskWuxiekeji;
+            //this.OnReplyShaEvents -= wp.OnReplySha;
 
             this.AdditionalWeapons.Remove(wp);
         }
@@ -363,5 +400,30 @@ namespace MyHeroKill.Model.Roles
             return msg;
         }
 
+
+
+        public bool OnReplySha(HandCardManager handCardManager, int fromUserIndex, AttackCardModel attackCardModel, DefenseCardModel defenseCardModel)
+        {
+            IRole role = this.CurrentHandCardManager.CurrentHostManager.GetRole(fromUserIndex);
+            if (defenseCardModel.IsDefensed)
+            {
+                //被抵挡，什么都不做
+            }
+            else
+            {
+                //出了闪？
+                if (defenseCardModel.DefenseCardContainers != null && defenseCardModel.DefenseCardContainers.Count > 0)
+                {
+                    //TODO:检查杀被闪掉之后是否强制命中，如博浪锤，盘龙棍
+
+                }
+                else
+                {
+                    //掉血
+                    role.CurrentHandCardManager.TiggerChangeLife(fromUserIndex, -1);
+                }
+            }
+            return true;
+        }
     }
 }

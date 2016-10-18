@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace MyHeroKill.Model.Skills
 {
-    public class BawangSkill : BaseSkill
+    public class SanbanfuSkill : BaseSkill
     {
-        public BawangSkill()
+        public SanbanfuSkill()
         {
-            this.Name = "霸王";
+            this.Name = "三板斧";
             this.AddAttackDistance = 0;
             this.AddDamage = 0;
             this.AddLife = 0;
@@ -37,5 +37,13 @@ namespace MyHeroKill.Model.Skills
         {
             //在决斗之前，被攻击方需要出两张杀
         }
+
+        public override bool OnReplySha(HandCardManager handCardManager, int fromUserIndex, AttackCardModel attackCardModel, DefenseCardModel defenseCardModel)
+        {
+           //敌方没闪敌方掉2血，敌方一闪敌我各掉1血，敌方2闪我方掉1血
+
+            return false;
+        }
+       
     }
 }

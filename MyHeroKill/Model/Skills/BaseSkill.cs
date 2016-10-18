@@ -183,5 +183,18 @@ namespace MyHeroKill.Model.Skills
         public virtual void OnAskWuxiekeji(Managers.HandCardManager handCardManager)
         {
         }
+
+
+        public virtual bool OnReplySha(Managers.HandCardManager handCardManager, int fromUserIndex, AttackCardModel attackCardModel, DefenseCardModel defenseCardContainer)
+        {
+            //默认可以继续执行其他的OnReplySha
+            return true;
+        }
+
+        public virtual bool OnLifeChange(int deltaLife, Managers.HandCardManager handCardManager)
+        {
+            return true;
+        }
+
     }
 }

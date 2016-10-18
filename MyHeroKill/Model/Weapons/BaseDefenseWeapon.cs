@@ -272,5 +272,16 @@ namespace MyHeroKill.Model.Weapons
         public void OnAskWuxiekeji(Managers.HandCardManager handCardManager)
         {
         }
+
+
+        public virtual bool OnReplySha(Managers.HandCardManager handCardManager, int fromUserIndex, AttackCardModel attackCardModel, DefenseCardModel defenseCardContainer)
+        {
+            return true;
+        }
+
+        public virtual bool OnLifeChange(int deltaLife, Managers.HandCardManager handCardManager)
+        {
+            return true;
+        }
     }
 }

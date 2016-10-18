@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyHeroKill.Model
 {
-    public struct CardContainer
+    public class AttackCardContainer
     {
         /// <summary>
         /// 需要出的牌的花色
@@ -21,7 +21,24 @@ namespace MyHeroKill.Model
         /// <summary>
         /// 需要出的牌的真实类型
         /// </summary>
-        public Enums.ECardGloabalType NeedHandoutGloabalTypes { get; set; }
+        public Enums.ECardGloabalType NeedHandoutGloabalType { get; set; }
+    }
+
+    public class DefenseCardContainer
+    {
+        public DefenseCardContainer()
+        {
+            this.FromCards = new List<Card>();
+        }
+        public Enums.ECardColorAndSignType HandoutCardColorAndSign { get; set; }
+        public Enums.ECardGloabalType NeedHandoutGloabalType { get; set; }
+
+        public List<Card> FromCards { get; set; }
+
+        /// <summary>
+        /// 强制抵消，如玉如意当做闪，则认为是抵挡过了，不过不会有出牌
+        /// </summary>
+        public bool IsDefensed { get; set; }
     }
     /// <summary>
     /// 出牌的牌模型
@@ -36,7 +53,7 @@ namespace MyHeroKill.Model
         /// <summary>
         /// 需要出的牌的集合，序号越小优先级越高，多个NeedHandoutCards之间是或者的关系
         /// </summary>
-        public List<CardContainer> NeedHandoutCards { get; set; }
+        public List<AttackCardContainer> NeedHandoutCards { get; set; }
 
         /// <summary>
         /// 是否不可以抵御杀
@@ -63,19 +80,21 @@ namespace MyHeroKill.Model
 
     public class DefenseCardModel
     {
-        /// <summary>
-        /// 所出的牌的真实类型
-        /// </summary>
-        public MyHeroKill.Model.Enums.ECardGloabalType FromCardGloabalType { get; set; }
+        public DefenseCardModel()
+        {
+            this.DefenseCardContainers = new List<DefenseCardContainer>();
+        }
+        public List<DefenseCardContainer> DefenseCardContainers { get; set; }
 
         /// <summary>
-        /// 来源牌，原始牌（出牌方所出的牌）
+        /// 是否强制抵消伤害，比如黑杀盾，触发黑杀盾，则可以认为是强制抵消
         /// </summary>
-        public List<Card> FromCards { get; set; }
+        public bool IsDefensed { get; set; }
 
         /// <summary>
-        /// 是否结束出牌
+        /// 是否出牌结束
         /// </summary>
         public bool IsHandoutOver { get; set; }
+
     }
 }

@@ -300,17 +300,17 @@ namespace MyHeroKill.Managers
                 cardModel.FromCards = this.CurrentRole.CardsInHand.Where(p => p.IsSelected).ToList();
 
                 cardModel.CanNotDefenseSha = false;
-                cardModel.NeedHandoutCards = new List<CardContainer>();
+                cardModel.NeedHandoutCards = new List<AttackCardContainer>();
 
                 var needCardTypes = this.GetNeedHandoutCardType(cardModel.FromCardGloabalType);
                 foreach (var item in needCardTypes)
                 {
-                    var cardContainer = new CardContainer();
+                    var cardContainer = new AttackCardContainer();
                     cardContainer.NeedHandoutCardColorAndSign = Enums.ECardColorAndSignType.Any;
                     //根据角色技能、装备决定伤害值
                     cardContainer.NeedHandoutCardCount = 1;
                     //根据真实牌类型来判断需要出什么牌
-                    cardContainer.NeedHandoutGloabalTypes = item;
+                    cardContainer.NeedHandoutGloabalType = item;
                     cardModel.NeedHandoutCards.Add(cardContainer);
                 }
                 this._currentCardModel = cardModel;
@@ -325,9 +325,12 @@ namespace MyHeroKill.Managers
 
         public void HandoutCard(int attackerUserIndex, AttackCardModel attackCardModel, DefenseCardModel defenseCardModel)
         {
-            foreach (var card in defenseCardModel.FromCards)
+            foreach (var card in defenseCardModel.DefenseCardContainers)
             {
-                this.CurrentRole.CardsInHand.Remove(card);
+                card.FromCards.ForEach(p =>
+                {
+                    this.CurrentRole.CardsInHand.Remove(p);
+                });
             }
             this.CurrentHostManager.ReplyRequest(this.CurrentHostManager.GetRoleIndex(this.CurrentRole), attackerUserIndex, attackCardModel, defenseCardModel);
         }
@@ -340,6 +343,12 @@ namespace MyHeroKill.Managers
             //根据角色的武器、技能来构造CardModel。如攻击强度、所需要出牌数
             this.SetCardModel();
             var cardModel = this.GetCardModel();
+            //清除手中的牌
+            foreach (var card in cardModel.FromCards)
+            {
+                this.CurrentRole.CardsInHand.Remove(card);
+            }
+
             if (cardModel.FromCardGloabalType == Enums.ECardGloabalType.Sha)
             {
                 this.CurrentRole.BaseWeapons.ForEach(p =>
@@ -365,6 +374,237 @@ namespace MyHeroKill.Managers
         }
 
         /// <summary>
+        /// 出发血量变化
+        /// </summary>
+        /// <param name="targetUserIndex"></param>
+        /// <param name="deltaLife"></param>
+        /// <returns></returns>
+        public bool TiggerChangeLife(int targetUserIndex, int deltaLife)
+        {
+            bool continueWork = true;
+            //看装备-技能中是否有处理药的技能
+            foreach (var wp in this.CurrentRole.BaseWeapons)
+            {
+                if (!wp.OnLifeChange(deltaLife, this))
+                {
+                    continueWork = false;
+                    break;
+                }
+            }
+
+            if (continueWork)
+            {
+                foreach (var wp in this.CurrentRole.AdditionalWeapons)
+                {
+                    if (!wp.OnLifeChange(deltaLife, this))
+                    {
+                        continueWork = false;
+                        break;
+                    }
+                }
+            }
+
+            if (continueWork)
+            {
+                foreach (var sk in this.CurrentRole.BaseSkills)
+                {
+                    if (!sk.OnLifeChange(deltaLife, this))
+                    {
+                        continueWork = false;
+                        break;
+                    }
+                }
+            }
+
+            if (continueWork)
+            {
+                foreach (var sk in this.CurrentRole.AdditionalSkills)
+                {
+                    if (!sk.OnLifeChange(deltaLife, this))
+                    {
+                        continueWork = false;
+                        break;
+                    }
+                }
+            }
+
+            if (continueWork)
+            {
+                this.CurrentRole.OnLifeChange(deltaLife, this);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 响应杀事件
+        /// </summary>
+        /// <param name="defenseCardModel"></param>
+        private void DoReplySha(int fromUserIndex, AttackCardModel attackCardModel, DefenseCardModel defenseCardModel)
+        {
+            //TODO  
+            bool continueWork = true;
+            //看装备-技能中是否有处理杀的技能
+            foreach (var wp in this.CurrentRole.BaseWeapons)
+            {
+                if (!wp.OnReplySha(this, fromUserIndex, attackCardModel, defenseCardModel))
+                {
+                    continueWork = false;
+                    break;
+                }
+            }
+
+            if (continueWork)
+            {
+                foreach (var wp in this.CurrentRole.AdditionalWeapons)
+                {
+                    if (!wp.OnReplySha(this, fromUserIndex, attackCardModel, defenseCardModel))
+                    {
+                        continueWork = false;
+                        break;
+                    }
+                }
+            }
+
+            if (continueWork)
+            {
+                foreach (var sk in this.CurrentRole.BaseSkills)
+                {
+                    if (!sk.OnReplySha(this, fromUserIndex, attackCardModel, defenseCardModel))
+                    {
+                        continueWork = false;
+                        break;
+                    }
+                }
+            }
+
+            if (continueWork)
+            {
+                foreach (var sk in this.CurrentRole.AdditionalSkills)
+                {
+                    if (!sk.OnReplySha(this, fromUserIndex, attackCardModel, defenseCardModel))
+                    {
+                        continueWork = false;
+                        break;
+                    }
+                }
+            }
+
+            if (continueWork)
+            {
+                this.CurrentRole.OnReplySha(this, fromUserIndex, attackCardModel, defenseCardModel);
+            }
+
+        }
+
+        private void DoReplyYao()
+        {
+            bool continueWork = true;
+            //看装备-技能中是否有处理药的技能
+            foreach (var wp in this.CurrentRole.BaseWeapons)
+            {
+                if (!wp.OnLifeChange(1, this))
+                {
+                    continueWork = false;
+                    break;
+                }
+            }
+
+            if (continueWork)
+            {
+                foreach (var wp in this.CurrentRole.AdditionalWeapons)
+                {
+                    if (!wp.OnLifeChange(1, this))
+                    {
+                        continueWork = false;
+                        break;
+                    }
+                }
+            }
+
+            if (continueWork)
+            {
+                foreach (var sk in this.CurrentRole.BaseSkills)
+                {
+                    if (!sk.OnLifeChange(1, this))
+                    {
+                        continueWork = false;
+                        break;
+                    }
+                }
+            }
+
+            if (continueWork)
+            {
+                foreach (var sk in this.CurrentRole.AdditionalSkills)
+                {
+                    if (!sk.OnLifeChange(1, this))
+                    {
+                        continueWork = false;
+                        break;
+                    }
+                }
+            }
+
+            if (continueWork)
+            {
+                this.CurrentRole.OnLifeChange(1, this);
+            }
+        }
+
+        private void DoReplyFudichouxin()
+        {
+            //TODO:
+            bool continueWork = true;
+            //看装备-技能中是否有处理釜底抽薪的技能
+            foreach (var wp in this.CurrentRole.BaseWeapons)
+            {
+                if (!wp.OnLifeChange(1, this))
+                {
+                    continueWork = false;
+                    break;
+                }
+            }
+
+            if (continueWork)
+            {
+                foreach (var wp in this.CurrentRole.AdditionalWeapons)
+                {
+                    if (!wp.OnLifeChange(1, this))
+                    {
+                        continueWork = false;
+                        break;
+                    }
+                }
+            }
+
+            if (continueWork)
+            {
+                foreach (var sk in this.CurrentRole.BaseSkills)
+                {
+                    if (!sk.OnLifeChange(1, this))
+                    {
+                        continueWork = false;
+                        break;
+                    }
+                }
+            }
+
+            if (continueWork)
+            {
+                foreach (var sk in this.CurrentRole.AdditionalSkills)
+                {
+                    if (!sk.OnLifeChange(1, this))
+                    {
+                        continueWork = false;
+                        break;
+                    }
+                }
+            }
+            this.CurrentRole.OnLifeChange(1, this);
+        }
+
+        /// <summary>
         /// 攻击对方之后，对方出的牌
         /// </summary>
         /// <param name="fromUserIndex"></param>
@@ -372,7 +612,70 @@ namespace MyHeroKill.Managers
         /// <param name="defenseCardModel"></param>
         public void AttackHandoutReply(int fromUserIndex, AttackCardModel attackCardModel, DefenseCardModel defenseCardModel)
         {
+            //判断攻击牌的类型，根据类型做不同的处理
+            if (attackCardModel.FromCardGloabalType == Enums.ECardGloabalType.Sha)
+            {
+                DoReplySha(fromUserIndex, attackCardModel, defenseCardModel);
+            }
+            else if (attackCardModel.FromCardGloabalType == Enums.ECardGloabalType.Yao)
+            {
+                //药，回血
+                DoReplyYao();
+            }
+            else if (attackCardModel.FromCardGloabalType == Enums.ECardGloabalType.Fudichouxin)
+            {
+                //釜底抽薪
+                DoReplyFudichouxin();
+            }
+            else if (attackCardModel.FromCardGloabalType == Enums.ECardGloabalType.Wanjianqifa)
+            {
+                //釜底抽薪
+                DoReplyYao();
+            }
+            else if (attackCardModel.FromCardGloabalType == Enums.ECardGloabalType.Tanlangquwu)
+            {
+                //釜底抽薪
+                DoReplyYao();
+            }
+            else if (attackCardModel.FromCardGloabalType == Enums.ECardGloabalType.Juedou)
+            {
+                //釜底抽薪
+                DoReplyYao();
+            }
+            else if (attackCardModel.FromCardGloabalType == Enums.ECardGloabalType.Wugufengdeng)
+            {
+                //釜底抽薪
+                DoReplyYao();
+            }
+            else if (attackCardModel.FromCardGloabalType == Enums.ECardGloabalType.Wuzhongshengyou)
+            {
+                //釜底抽薪
+                DoReplyYao();
+            }
 
+            //检查是否被强制抵消
+            //a.未被抵消，检查是否有出牌
+            //  a.1如果有出牌：检查出牌数量是否与所需出牌数量一致
+            //  a.2如果没出牌：检查是否有掉血或者之后的操作
+            //b.被抵消，没有伤害
+            if (defenseCardModel.IsDefensed)
+            {
+                //什么都不干
+            }
+            else
+            {
+                if (defenseCardModel.DefenseCardContainers.Count > 0)
+                {
+                    if (defenseCardModel.DefenseCardContainers.Count < attackCardModel.NeedHandoutCards.Count)
+                    {
+                        //出牌数量不够
+                    }
+                    else
+                    {
+                        //出牌数量充足
+                    }
+                }
+            }
         }
 
 
@@ -395,7 +698,7 @@ namespace MyHeroKill.Managers
                     //判断是否有抵御的牌
                     //1. 检查是否有对应的手牌；
                     //2. 检查是否有技能可以提供并满足技能要求
-                    if (this.CurrentRole.CardsInHand.Any(p => p.CardGloabalType == needCard.NeedHandoutGloabalTypes))
+                    if (this.CurrentRole.CardsInHand.Any(p => p.CardGloabalType == needCard.NeedHandoutGloabalType))
                     {
                         //有可以出的手牌，弹出第一张可以出的牌
                         //如果是AI，则直接出牌,TODO:机器人不出无邪；
@@ -403,17 +706,20 @@ namespace MyHeroKill.Managers
                         if (this.CurrentRole.RoleStatus == Enums.ERoleStatus.AI)
                         {
                             //AI先出无懈可击
-                            var cards = this.CurrentRole.CardsInHand.Where(p => p.CardGloabalType == needCard.NeedHandoutGloabalTypes).ToList();
+                            var cards = this.CurrentRole.CardsInHand.Where(p => p.CardGloabalType == needCard.NeedHandoutGloabalType).ToList();
                             if (cards.Count > 0)
                             {
                                 DefenseCardModel dModel = new DefenseCardModel();
-                                dModel.FromCards = new List<Card>();
+                                dModel.DefenseCardContainers = new List<DefenseCardContainer>();
                                 //出掉手中最多的需要的牌
                                 for (int i = 0; i < Math.Min(needCard.NeedHandoutCardCount, cards.Count); i++)
                                 {
-                                    dModel.FromCards.Add(cards[i]);
+                                    var defenseCardContainer = new DefenseCardContainer();
+                                    defenseCardContainer.FromCards.Add(cards[i]);
+                                    defenseCardContainer.HandoutCardColorAndSign = cards[i].Type;
+                                    dModel.DefenseCardContainers.Add(defenseCardContainer);
                                 }
-                                dModel.IsHandoutOver = true;
+
                                 this.HandoutCard(attackerUserIndex, cardModel, dModel);
                                 break;
                             }
@@ -431,6 +737,10 @@ namespace MyHeroKill.Managers
                     else
                     {
                         //没有手牌可出，判断是否有技能或者装备可以提供
+                        DefenseCardModel dModel = new DefenseCardModel();
+                        dModel.DefenseCardContainers = new List<DefenseCardContainer>();
+                        dModel.IsHandoutOver = true;
+                        this.HandoutCard(attackerUserIndex, cardModel, dModel);
                     }
 
                 }

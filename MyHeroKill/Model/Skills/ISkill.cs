@@ -56,5 +56,21 @@ namespace MyHeroKill.Model.Skills
         void OnAskShan(HandCardManager handCardManager);
         void OnAskJuedou(HandCardManager handCardManager);
         void OnAskWuxiekeji(HandCardManager handCardManager);
+
+        /// <summary>
+        /// 响应杀之后的事件,比如三板斧，一张闪则各掉一滴血，两闪则我方掉血，没闪则敌方掉两血
+        /// </summary>
+        /// <param name="handCardManager"></param>
+        /// <param name="defenseCardContainer"></param>
+        /// <returns>是否可以继续执行别的OnReplySha事件</returns>
+        bool OnReplySha(HandCardManager handCardManager, int fromUserIndex, AttackCardModel attackCardModel, DefenseCardModel defenseCardContainer);
+
+        /// <summary>
+        /// 血量改变的时候触发
+        /// </summary>
+        /// <param name="handCardManager"></param>
+        bool OnLifeChange(int deltaLife, HandCardManager handCardManager);
+
+
     }
 }
